@@ -1,0 +1,41 @@
+Package fatorial;
+
+Helpers
+ digito = ['0' .. '9'];
+ char_min = ['a' .. 'z'];
+ char_mai = ['A' .. 'Z'];
+
+ espaco = ' ';
+ rc = 13;
+ nl = 10;
+ 
+Tokens
+ numero = digito+ | '-'digito+;
+ palavra = (char_min | char_mai | '_')+;
+ 
+ 
+ atribuicao = '<<';
+ 
+ soma = '+';
+ menos = '-';
+ mult = '*';
+ div = '/';
+ mod = '%';
+ 
+ menor_que = '<';
+ maior_que = '>';
+ 
+ ponto_final = '.';
+ 
+ par_esq = '(';
+ par_dir = ')';
+ colc_esq = '[';
+ colc_dir = ']';
+ 
+ 
+ vazio = (espaco | rc | nl)+;
+
+
+Ignored Tokens
+ vazio;
+

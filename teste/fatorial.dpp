@@ -1,0 +1,25 @@
+family Operacoesmat start
+    object Periphericals io.
+
+    function number calcula_fatorial [] start
+        alterable number n << io.capture[].
+        alterable number resultado << 1.
+
+        in case that (n < 0) start
+            io.show[-10000000000].
+        finish
+
+        in case that (n > 1) start
+
+            as long as (n > 1) start
+                resultado << resultado*n.
+                n << n - 1.
+            finish
+        
+            resultado
+        finish
+
+        otherwise resultado
+    finish.
+
+finish
