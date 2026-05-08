@@ -1,3 +1,28 @@
-Testando - etapa dos comentarios.
+Testando - etapa dos comentarios que passam.
 
-{- xxxxxxx -}
+1) Comentário de linha simples:
+
+alterable number x << 10. -- Comentário após um comando.
+-- x << 20. (Este comando não deve ser executado)
+
+2) Comentários de Bloco (Múltiplas Linhas):
+
+{- 
+   Ele pode ocupar várias linhas.
+   Útil para cabeçalhos de classes.
+-}
+
+3) Não Aninhado:
+
+{- 
+   Início do comentário.
+   {- Tentativa de aninhar outro comentário -} 
+   Esta parte tecnicamente já estaria FORA do comentário para o Lexer,
+   causando um erro de sintaxe no "-}" abaixo se não for tratado.
+-}
+
+4) Casos de Borda para o Scanner:
+
+{- Comentário colado em código -}number y << 5.
+-- Comentário com símbolos especiais: @#$%&*()
+{- Comentário contendo hifens isolados - como este - para ver se ele não fecha antes da hora -}

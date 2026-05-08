@@ -5,16 +5,16 @@ package lexico.node;
 import lexico.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TMenorQue extends Token
+public final class TMarcadorEntrada extends Token
 {
-    public TMenorQue()
+    public TMarcadorEntrada()
     {
-        super.setText("<");
+        super.setText(">>");
     }
 
-    public TMenorQue(int line, int pos)
+    public TMarcadorEntrada(int line, int pos)
     {
-        super.setText("<");
+        super.setText(">>");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TMenorQue extends Token
     @Override
     public Object clone()
     {
-      return new TMenorQue(getLine(), getPos());
+      return new TMarcadorEntrada(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTMenorQue(this);
+        ((Analysis) sw).caseTMarcadorEntrada(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TMenorQue text.");
+        throw new RuntimeException("Cannot change TMarcadorEntrada text.");
     }
 }

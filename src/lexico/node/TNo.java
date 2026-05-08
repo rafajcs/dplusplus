@@ -5,16 +5,16 @@ package lexico.node;
 import lexico.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TMaiorQue extends Token
+public final class TNo extends Token
 {
-    public TMaiorQue()
+    public TNo()
     {
-        super.setText(">");
+        super.setText("no");
     }
 
-    public TMaiorQue(int line, int pos)
+    public TNo(int line, int pos)
     {
-        super.setText(">");
+        super.setText("no");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TMaiorQue extends Token
     @Override
     public Object clone()
     {
-      return new TMaiorQue(getLine(), getPos());
+      return new TNo(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTMaiorQue(this);
+        ((Analysis) sw).caseTNo(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TMaiorQue text.");
+        throw new RuntimeException("Cannot change TNo text.");
     }
 }

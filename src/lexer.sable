@@ -1,64 +1,99 @@
 Package lexico;
 
 Helpers
- digito = ['0' .. '9'];
- char_min = ['a' .. 'z'];
- char_mai = ['A' .. 'Z'];
-
- espaco = ' ';
- rc = 13;
- nl = 10;
- tab = 9;
+	/* Definições auxiliares */
+	
+	digito  =  ['0' .. '9'];
+	letra_min = ['a' .. 'z'];
+	letra_mai = ['A' .. 'Z'];
+	letra 	= letra_min | letra_mai;
+	id_char = letra | digito | '_';
+	
+	espaco = ' ';
+	rc 	= 13;
+	nl 	= 10;
+	tab = 9;
+	all = [0 .. 0xffff];	/* !!! importante p/ comentarios !!! */
+	 
  
 Tokens
- numero = 
- 		'-'? digito+ ('.' digito+)?;
+	/* ============================================================
+       1) LITERAIS, OPERADORES E DELIMITADORES 
+       Foco: Valores fixos, símbolos matemáticos e pontuação.
+	   ============================================================ */
+	
+	
+	/* Literais */
+	numero = '-'? digito+ ('.' digito+)?;
+	yes = 'yes';
+    no = 'no'; 
  
- palavra = 
- 		(char_min | char_mai | '_')+;
+ 	/* Operadores Aritméticos e Lógicos */
+	soma 	= '+';
+	menos 	= '-';
+	mult 	= '*';
+	div 	= '/';
+	mod 	= '%';
+	menor = '<';
+	maior = '>';
+	
+	
+	
+	/* Operadores Especiais e Delimitadores */
+	atribuicao = '<<';
+	ponto = '.';
+	
+	par_esq = '(';
+	par_dir = ')';
+	colc_esq = '[';
+	colc_dir = ']';
+	
+	
+	
+	/* ============================================================
+       2) PALAVRAS RESERVADAS E CONTROLE 
+       Foco: Estruturas de decisão, laços, herança e tipos.
+       ============================================================ */
+
+
+    /* Estruturas de Controle e Blocos */
+    start = 'start';
+    
+    
+    
+    /* Declarações e OO */
+    family = 'family';
+    
+    
+    
+    /* Tipos Primitivos */
+    
+    
+    
+    /* Marcador de Entrada - REVISAR! */
+    marcador_entrada = '>>';
+	
+	
+	
+	/* ============================================================
+       3) IDENTIFICADORES, COMENTÁRIOS E IGNORADOS 
+       Foco: Nomes definidos pelo usuário e tratamento de espaços.
+       IMPORTANTE: Estes devem vir por último no arquivo.
+       ============================================================ */
+       
+	
+	/* Identificadores */
+	id_classe = letra_mai (id_char)*;
+	id		  = letra_min (id_char)*;
  
- id_classe = 
- 		char_mai (char_min | char_mai | digito | '_')*;
- 
- id = 
- 		char_min (char_min | char_mai | digito | '_')*;
- 
- 
- atribuicao = 
- 		'<<';
- 
- soma = 
- 		'+';
- menos = 
- 		'-';
- mult = 
- 		'*';
- div = 
- 		'/';
- mod = 
- 		'%';
- 
- menor_que = 
- 		'<';
- maior_que = 
- 		'>';
- 
- ponto_final = 
- 		'.';
- 
- par_esq = 
- 		'(';
- par_dir = 
- 		')';
- colc_esq = 
- 		'[';
- colc_dir = 
- 		']';
- 
- 
- vazio = (espaco | rc | nl | tab)+;
+	/* Espaços e Comentários */
+	vazio = (espaco | rc | nl | tab)+;
 
 
 Ignored Tokens
- vazio;
-
+	/* O que vai ser ignorado por enquanto */
+	vazio;
+	
+	
+	/* ATENÇÃO AOS COMENTÁRIOS - IGUAL C! */ 	
+	

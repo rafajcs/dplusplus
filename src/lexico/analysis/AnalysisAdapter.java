@@ -75,25 +75,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTPalavra(TPalavra node)
+    public void caseTYes(TYes node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTIdClasse(TIdClasse node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTId(TId node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTAtribuicao(TAtribuicao node)
+    public void caseTNo(TNo node)
     {
         defaultCase(node);
     }
@@ -129,19 +117,25 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTMenorQue(TMenorQue node)
+    public void caseTMenor(TMenor node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTMaiorQue(TMaiorQue node)
+    public void caseTMaior(TMaior node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTPontoFinal(TPontoFinal node)
+    public void caseTAtribuicao(TAtribuicao node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTPonto(TPonto node)
     {
         defaultCase(node);
     }
@@ -166,6 +160,36 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTColcDir(TColcDir node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTStart(TStart node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTFamily(TFamily node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTMarcadorEntrada(TMarcadorEntrada node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTIdClasse(TIdClasse node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTId(TId node)
     {
         defaultCase(node);
     }

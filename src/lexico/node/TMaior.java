@@ -5,16 +5,16 @@ package lexico.node;
 import lexico.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TPontoFinal extends Token
+public final class TMaior extends Token
 {
-    public TPontoFinal()
+    public TMaior()
     {
-        super.setText(".");
+        super.setText(">");
     }
 
-    public TPontoFinal(int line, int pos)
+    public TMaior(int line, int pos)
     {
-        super.setText(".");
+        super.setText(">");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TPontoFinal extends Token
     @Override
     public Object clone()
     {
-      return new TPontoFinal(getLine(), getPos());
+      return new TMaior(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTPontoFinal(this);
+        ((Analysis) sw).caseTMaior(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TPontoFinal text.");
+        throw new RuntimeException("Cannot change TMaior text.");
     }
 }
