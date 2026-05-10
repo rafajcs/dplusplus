@@ -1,0 +1,37 @@
+{-
+   Arquivo de teste para cobertura dos recursos faltantes:
+   unalterable, and, !, valor_real, yes/no, answer,
+   comentarios de linha, & na genealogia, separador
+   de parametros, bloco_exp como corpo de funcao
+-}
+
+family Animal derives from Root & family Cachorro derives from Animal.
+
+family Animal start
+    unalterable number PI << 3.14.       -- constante real
+    alterable answer ativo << yes.
+    alterable answer parado << no.
+
+    -- Funcao com multiplos parametros separados por |
+    function answer compararIdade [number a | number b] start
+        alterable answer resultado << (a > b) and !(a = b).
+        resultado
+    finish.
+
+    -- Funcao que usa bloco_exp como corpo
+    function number calcularArea [number raio]
+        start
+            alterable number r << raio.
+            r * r * PI
+        finish.
+finish
+
+family Cachorro start
+    >>procedure principal [] start
+        alterable number x << 2.5.
+        alterable number y << 1.0.
+        alterable answer flag << yes or no.
+        alterable answer negado << !flag.
+        alterable number soma << x + y.
+    finish
+finish

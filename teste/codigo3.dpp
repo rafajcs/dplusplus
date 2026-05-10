@@ -1,0 +1,40 @@
+{- 
+   Código 3: Foco em OO, Herança, Métodos Abstratos e Tipagem Recursiva
+-}
+
+-- 1. A Genealogia deve vir primeiro
+family Filha derives from Mae .
+
+-- 2. Classe Mãe (Abstrata)
+family Mae start
+    procedure exibirDados [ ] .
+finish
+
+-- 3. Classe Filha (Concreta)
+family Filha start
+    alterable number meuNumero << 10 .
+    
+    procedure exibirDados [ ] start
+        Periphericals.show[meuNumero] .
+    finish
+finish
+
+-- 4. Classe Nó (Tipagem Recursiva)
+family No start
+    object No proximo .
+    alterable number valor << 0 .
+    
+    function number getValor [ ] start
+        return valor .
+    finish
+finish
+
+-- Ponto de Entrada (Necessário se este for o único arquivo sendo rodado para teste)
+family Principal start
+    >> procedure iniciar [ ] start
+        object Filha objFilha .
+        objFilha.exibirDados[]() .
+    finish
+finish
+
+--------------------------------------------------------------------------------
