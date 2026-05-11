@@ -66,15 +66,19 @@ Tokens
     /* Estruturas de Controle e Blocos */
 	finish = 'finish';
     start = 'start';
-	in_case_that = 'in case that';
-	as_long_as = 'as long as';
+	in = 'in';
+	case = 'case';
+	that = 'that';
+	as = 'as';
+	long = 'long';
 	otherwise = 'otherwise';
 	if   = 'if';
 	else = 'else';
 
     /* Declarações e OO */
     family       = 'family';
-    derives_from = 'derives from';
+    derives = 'derives'; 
+    from = 'from';
     object       = 'object';
 	function     = 'function';
 	procedure    = 'procedure'; /*Correção de aspas*/
