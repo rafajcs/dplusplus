@@ -13,7 +13,7 @@ Helpers
 	rc 	= 13;
 	nl 	= 10;
 	tab = 9;
-	all = [0 .. 0xffff];	/* !!! importante p/ comentarios !!! */
+	all = [0 .. 0xffff];
 
 	not_eol   = [all - [nl + rc]];
 	not_dash  = [all - '-'];
@@ -31,7 +31,7 @@ Tokens
 	valor_real    = digito+ '.' digito+;
 	valor_inteiro = digito+;
 	yes = 'yes';
-    no = 'no';
+    no  = 'no';
 
  	/* Operadores Aritméticos e Lógicos */
 	soma 	= '+';
@@ -50,9 +50,8 @@ Tokens
 	ponto       = '.';
 	e_comercial = '&';
 	pipe        = '|';
-
-	par_esq = '(';
-	par_dir = ')';
+	par_esq  = '(';
+	par_dir  = ')';
 	colc_esq = '[';
 	colc_dir = ']';
 
@@ -65,6 +64,7 @@ Tokens
 
     /* Estruturas de Controle e Blocos */
 	finish = 'finish';
+<<<<<<< HEAD
     start = 'start';
 	in = 'in';
 	case = 'case';
@@ -72,6 +72,12 @@ Tokens
 	as = 'as';
 	long = 'long';
 	otherwise = 'otherwise';
+=======
+    start  = 'start';
+	in_case_that = 'in case that';
+	as_long_as 	 = 'as long as';
+	otherwise    = 'otherwise';
+>>>>>>> 7192903e72b23d143e4787b7c56806bf825ef3b0
 	if   = 'if';
 	else = 'else';
 
@@ -106,8 +112,6 @@ Tokens
 
 	/* Espaços e Comentários */
 	vazio = (espaco | rc | nl | tab)+;
-
-	/* ATENÇÃO AOS COMENTÁRIOS - IGUAL C! */
 	coment_linha = '--' not_eol*;
 	coment_bloco = '{-' (not_dash | '-'+ not_close)* '-'+ '}';
 
