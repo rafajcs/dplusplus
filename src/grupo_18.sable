@@ -31,7 +31,7 @@ Tokens
 	valor_real    = digito+ '.' digito+;
 	valor_inteiro = digito+;
 	yes = 'yes';
-    no  = 'no';
+	no  = 'no';
 
  	/* Operadores Aritméticos e Lógicos */
 	soma 	= '+';
@@ -46,6 +46,7 @@ Tokens
 	or      = 'or';
 
 	/* Operadores Especiais e Delimitadores */
+	acesso 		= '->';
 	atribuicao  = '<<';
 	ponto       = '.';
 	e_comercial = '&';
@@ -63,40 +64,33 @@ Tokens
 
 
     /* Estruturas de Controle e Blocos */
-	finish = 'finish';
-<<<<<<< HEAD
-    start = 'start';
-	in = 'in';
-	case = 'case';
-	that = 'that';
-	as = 'as';
-	long = 'long';
+	finish	= 'finish';
+	start 	= 'start';
+	in		= 'in';
+	case 	= 'case';
+	that	= 'that';
+	as		= 'as';
+	long	= 'long';
 	otherwise = 'otherwise';
-=======
-    start  = 'start';
-	in_case_that = 'in case that';
-	as_long_as 	 = 'as long as';
-	otherwise    = 'otherwise';
->>>>>>> 7192903e72b23d143e4787b7c56806bf825ef3b0
 	if   = 'if';
 	else = 'else';
 
     /* Declarações e OO */
-    family       = 'family';
-    derives = 'derives'; 
-    from = 'from';
-    object       = 'object';
-	function     = 'function';
-	procedure    = 'procedure'; /*Correção de aspas*/
-	alterable    = 'alterable';
-	unalterable  = 'unalterable';
+	family		= 'family';
+	derives		= 'derives';
+	from		= 'from';
+	object		= 'object';
+	function	= 'function';
+	procedure	= 'procedure';
+	alterable	= 'alterable';
+	unalterable	= 'unalterable';
 
-    /* Tipos Primitivos */
+	/* Tipos Primitivos */
 	answer = 'answer';
 	number = 'number';
 
-    /* Marcador de Entrada - REVISAR! */
-    marcador_entrada = '>>';
+	/* Marcador de Entrada */
+	marcador_entrada = '>>';
 
 
 	/* ============================================================
@@ -107,13 +101,14 @@ Tokens
 
 
 	/* Identificadores */
-	id_classe = letra_mai (id_char)*;
-	id		  = letra_min (id_char)*;
+	id_classe	= letra_mai (id_char)*;
+	id	= letra_min (id_char)*;
 
 	/* Espaços e Comentários */
-	vazio = (espaco | rc | nl | tab)+;
+	vazio        = (espaco | rc | nl | tab)+;
 	coment_linha = '--' not_eol*;
 	coment_bloco = '{-' (not_dash | '-'+ not_close)* '-'+ '}';
+
 
 
 Ignored Tokens
@@ -121,3 +116,18 @@ Ignored Tokens
 	vazio,
 	coment_linha,
 	coment_bloco;
+
+Productions
+	/* programa = genealogia? def_classe+; */
+        
+    genealogia = 
+        relacao mais_relacao* ponto;
+    mais_relacao = 
+        e_comercial relacao;
+        
+    relacao = 
+        family [filho]:tipo_classe derives from [pai]:tipo_classe;
+        
+    
+	tipo_classe = 
+		id_classe;

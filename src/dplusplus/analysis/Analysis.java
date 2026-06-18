@@ -11,6 +11,12 @@ public interface Analysis extends Switch
     Object getOut(Node node);
     void setOut(Node node, Object o);
 
+    void caseStart(Start node);
+    void caseAGenealogia(AGenealogia node);
+    void caseAMaisRelacao(AMaisRelacao node);
+    void caseARelacao(ARelacao node);
+    void caseATipoClasse(ATipoClasse node);
+
     void caseTValorReal(TValorReal node);
     void caseTValorInteiro(TValorInteiro node);
     void caseTYes(TYes node);
@@ -25,6 +31,7 @@ public interface Analysis extends Switch
     void caseTNao(TNao node);
     void caseTAnd(TAnd node);
     void caseTOr(TOr node);
+    void caseTAcesso(TAcesso node);
     void caseTAtribuicao(TAtribuicao node);
     void caseTPonto(TPonto node);
     void caseTEComercial(TEComercial node);
@@ -35,13 +42,17 @@ public interface Analysis extends Switch
     void caseTColcDir(TColcDir node);
     void caseTFinish(TFinish node);
     void caseTStart(TStart node);
-    void caseTInCaseThat(TInCaseThat node);
-    void caseTAsLongAs(TAsLongAs node);
+    void caseTIn(TIn node);
+    void caseTCase(TCase node);
+    void caseTThat(TThat node);
+    void caseTAs(TAs node);
+    void caseTLong(TLong node);
     void caseTOtherwise(TOtherwise node);
     void caseTIf(TIf node);
     void caseTElse(TElse node);
     void caseTFamily(TFamily node);
-    void caseTDerivesFrom(TDerivesFrom node);
+    void caseTDerives(TDerives node);
+    void caseTFrom(TFrom node);
     void caseTObject(TObject node);
     void caseTFunction(TFunction node);
     void caseTProcedure(TProcedure node);

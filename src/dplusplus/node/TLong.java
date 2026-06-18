@@ -5,16 +5,16 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TInCaseThat extends Token
+public final class TLong extends Token
 {
-    public TInCaseThat()
+    public TLong()
     {
-        super.setText("in case that");
+        super.setText("long");
     }
 
-    public TInCaseThat(int line, int pos)
+    public TLong(int line, int pos)
     {
-        super.setText("in case that");
+        super.setText("long");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TInCaseThat extends Token
     @Override
     public Object clone()
     {
-      return new TInCaseThat(getLine(), getPos());
+      return new TLong(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTInCaseThat(this);
+        ((Analysis) sw).caseTLong(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TInCaseThat text.");
+        throw new RuntimeException("Cannot change TLong text.");
     }
 }

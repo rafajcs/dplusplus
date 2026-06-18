@@ -5,16 +5,16 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TAsLongAs extends Token
+public final class TAcesso extends Token
 {
-    public TAsLongAs()
+    public TAcesso()
     {
-        super.setText("as long as");
+        super.setText("->");
     }
 
-    public TAsLongAs(int line, int pos)
+    public TAcesso(int line, int pos)
     {
-        super.setText("as long as");
+        super.setText("->");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TAsLongAs extends Token
     @Override
     public Object clone()
     {
-      return new TAsLongAs(getLine(), getPos());
+      return new TAcesso(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTAsLongAs(this);
+        ((Analysis) sw).caseTAcesso(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TAsLongAs text.");
+        throw new RuntimeException("Cannot change TAcesso text.");
     }
 }

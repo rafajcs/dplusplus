@@ -5,16 +5,16 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TDerivesFrom extends Token
+public final class TCase extends Token
 {
-    public TDerivesFrom()
+    public TCase()
     {
-        super.setText("derives from");
+        super.setText("case");
     }
 
-    public TDerivesFrom(int line, int pos)
+    public TCase(int line, int pos)
     {
-        super.setText("derives from");
+        super.setText("case");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TDerivesFrom extends Token
     @Override
     public Object clone()
     {
-      return new TDerivesFrom(getLine(), getPos());
+      return new TCase(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTDerivesFrom(this);
+        ((Analysis) sw).caseTCase(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TDerivesFrom text.");
+        throw new RuntimeException("Cannot change TCase text.");
     }
 }

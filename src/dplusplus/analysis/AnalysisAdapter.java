@@ -69,6 +69,36 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseStart(Start node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAGenealogia(AGenealogia node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAMaisRelacao(AMaisRelacao node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseARelacao(ARelacao node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseATipoClasse(ATipoClasse node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTValorReal(TValorReal node)
     {
         defaultCase(node);
@@ -153,6 +183,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseTAcesso(TAcesso node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTAtribuicao(TAtribuicao node)
     {
         defaultCase(node);
@@ -213,13 +249,31 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTInCaseThat(TInCaseThat node)
+    public void caseTIn(TIn node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTAsLongAs(TAsLongAs node)
+    public void caseTCase(TCase node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTThat(TThat node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTAs(TAs node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTLong(TLong node)
     {
         defaultCase(node);
     }
@@ -249,7 +303,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTDerivesFrom(TDerivesFrom node)
+    public void caseTDerives(TDerives node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTFrom(TFrom node)
     {
         defaultCase(node);
     }
