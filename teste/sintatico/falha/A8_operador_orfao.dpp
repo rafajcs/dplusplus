@@ -1,0 +1,5 @@
+-- Testa o que acontece se o usuário esquecer um dos operandos em uma expressão binária
+
+10 + * 5
+3 - + 6
+2 * - 4

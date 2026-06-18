@@ -1,0 +1,4 @@
+-- Se o desenvolvedor esquecer a cláusula de escape (else)
+
+if (x > 10) yes
+if (a-2 < 5) else b

@@ -1,0 +1,5 @@
+-- Chamada de funções usando a sintaxe de colchetes e a barra vertical | como separadora de argumentos
+
+calcular[42 | yes | saldo]
+subtrai[20000 | 3300]
+busca[6, lista]

@@ -1,0 +1,5 @@
+-- Igualdade e ordem tem menor precedência que operadores aritm.
+
+x > 10 = y < 50
+a < 22 = b < 12
+m = 21 < 18

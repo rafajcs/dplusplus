@@ -1,0 +1,4 @@
+-- Se alguém usar a vírgula clássica por costume, o compilador deve barrar.
+
+calcular[id_usuario , 42]
+brake(check | psi)

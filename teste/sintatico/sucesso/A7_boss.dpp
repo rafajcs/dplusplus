@@ -1,0 +1,3 @@
+-- Junta tudo
+
+if (user->isAdmin = yes and !user->blocked) system->run[cmd | 10 * 5] else no

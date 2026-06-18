@@ -1,0 +1,4 @@
+-- Valida a estrutura do operador ternário inline (if (exp) exp else exp).
+
+if (meta = yes) 100 else 0
+if (calor = !no) 21 else 24

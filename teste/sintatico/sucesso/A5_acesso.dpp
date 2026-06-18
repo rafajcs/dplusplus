@@ -1,0 +1,6 @@
+-- Testa a nova sintaxe de acesso a membros usando o token ->.
+
+player->health
+carro->roda
+window->canvas->buffer->width
+no->next->valor

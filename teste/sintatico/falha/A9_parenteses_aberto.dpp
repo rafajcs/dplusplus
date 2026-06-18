@@ -1,0 +1,5 @@
+-- Testa parenteses sem o seu par correspondente.
+
+(4 + 2 * (5 - 3)
+3 * (10 - 4 / (2 + 2)) + 1)
+(-(6 + 7) * ((1 - 4))

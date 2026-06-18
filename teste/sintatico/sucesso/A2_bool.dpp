@@ -1,0 +1,6 @@
+-- Expressoes booleanas com token logicos
+
+!yes and no or yes
+!no or !yes and yes
+yes and (!no or no)
+(no or (yes and no)) or (yes and no)
