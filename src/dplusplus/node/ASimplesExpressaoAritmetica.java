@@ -5,46 +5,46 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ATipoClasse extends PTipoClasse
+public final class ASimplesExpressaoAritmetica extends PExpressaoAritmetica
 {
-    private TIdClasse _idClasse_;
+    private PTermo _termo_;
 
-    public ATipoClasse()
+    public ASimplesExpressaoAritmetica()
     {
         // Constructor
     }
 
-    public ATipoClasse(
-        @SuppressWarnings("hiding") TIdClasse _idClasse_)
+    public ASimplesExpressaoAritmetica(
+        @SuppressWarnings("hiding") PTermo _termo_)
     {
         // Constructor
-        setIdClasse(_idClasse_);
+        setTermo(_termo_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ATipoClasse(
-            cloneNode(this._idClasse_));
+        return new ASimplesExpressaoAritmetica(
+            cloneNode(this._termo_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseATipoClasse(this);
+        ((Analysis) sw).caseASimplesExpressaoAritmetica(this);
     }
 
-    public TIdClasse getIdClasse()
+    public PTermo getTermo()
     {
-        return this._idClasse_;
+        return this._termo_;
     }
 
-    public void setIdClasse(TIdClasse node)
+    public void setTermo(PTermo node)
     {
-        if(this._idClasse_ != null)
+        if(this._termo_ != null)
         {
-            this._idClasse_.parent(null);
+            this._termo_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ATipoClasse extends PTipoClasse
             node.parent(this);
         }
 
-        this._idClasse_ = node;
+        this._termo_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._idClasse_);
+            + toString(this._termo_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._idClasse_ == child)
+        if(this._termo_ == child)
         {
-            this._idClasse_ = null;
+            this._termo_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ATipoClasse extends PTipoClasse
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._idClasse_ == oldChild)
+        if(this._termo_ == oldChild)
         {
-            setIdClasse((TIdClasse) newChild);
+            setTermo((PTermo) newChild);
             return;
         }
 

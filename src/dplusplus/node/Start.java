@@ -7,7 +7,7 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class Start extends Node
 {
-    private PGenealogia _pGenealogia_;
+    private PPrograma _pPrograma_;
     private EOF _eof_;
 
     public Start()
@@ -16,10 +16,10 @@ public final class Start extends Node
     }
 
     public Start(
-        @SuppressWarnings("hiding") PGenealogia _pGenealogia_,
+        @SuppressWarnings("hiding") PPrograma _pPrograma_,
         @SuppressWarnings("hiding") EOF _eof_)
     {
-        setPGenealogia(_pGenealogia_);
+        setPPrograma(_pPrograma_);
         setEOF(_eof_);
     }
 
@@ -27,7 +27,7 @@ public final class Start extends Node
     public Object clone()
     {
         return new Start(
-            cloneNode(this._pGenealogia_),
+            cloneNode(this._pPrograma_),
             cloneNode(this._eof_));
     }
 
@@ -37,16 +37,16 @@ public final class Start extends Node
         ((Analysis) sw).caseStart(this);
     }
 
-    public PGenealogia getPGenealogia()
+    public PPrograma getPPrograma()
     {
-        return this._pGenealogia_;
+        return this._pPrograma_;
     }
 
-    public void setPGenealogia(PGenealogia node)
+    public void setPPrograma(PPrograma node)
     {
-        if(this._pGenealogia_ != null)
+        if(this._pPrograma_ != null)
         {
-            this._pGenealogia_.parent(null);
+            this._pPrograma_.parent(null);
         }
 
         if(node != null)
@@ -59,7 +59,7 @@ public final class Start extends Node
             node.parent(this);
         }
 
-        this._pGenealogia_ = node;
+        this._pPrograma_ = node;
     }
 
     public EOF getEOF()
@@ -90,9 +90,9 @@ public final class Start extends Node
     @Override
     void removeChild(Node child)
     {
-        if(this._pGenealogia_ == child)
+        if(this._pPrograma_ == child)
         {
-            this._pGenealogia_ = null;
+            this._pPrograma_ = null;
             return;
         }
 
@@ -108,9 +108,9 @@ public final class Start extends Node
     @Override
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(this._pGenealogia_ == oldChild)
+        if(this._pPrograma_ == oldChild)
         {
-            setPGenealogia((PGenealogia) newChild);
+            setPPrograma((PPrograma) newChild);
             return;
         }
 
@@ -127,7 +127,7 @@ public final class Start extends Node
     public String toString()
     {
         return "" +
-            toString(this._pGenealogia_) +
+            toString(this._pPrograma_) +
             toString(this._eof_);
     }
 }

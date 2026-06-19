@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String arquivo = args.length > 0 ? args[0] : "teste/LinkedList.dpp";
+		String arquivo = args.length > 0 ? args[0] : "teste/fatorial.dpp";
 
 		try (PushbackReader reader = new PushbackReader(new FileReader(arquivo), 1024)) {
 

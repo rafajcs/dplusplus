@@ -46,7 +46,7 @@ Tokens
 	or      = 'or';
 
 	/* Operadores Especiais e Delimitadores */
-	acesso 		= '->';
+	seta 		= '->';
 	atribuicao  = '<<';
 	ponto       = '.';
 	e_comercial = '&';
@@ -151,7 +151,7 @@ Productions
 		{bloco_principal} bloco_start;
 
 	declaracao_classe =
-		object id_classe opt_bloco_componentes;
+		family id_classe start lista_componentes finish;
 
 	/* substitui o operador opcional '?' */
 	opt_bloco_componentes =
@@ -187,8 +187,8 @@ Productions
 		{classe} id_classe;
 
 	metodo =
-		{funcao} function tipo id par_esq opt_parametros par_dir bloco_comandos |
-		{procedimento} procedure id par_esq opt_parametros par_dir bloco_comandos;
+		{funcao} function tipo id colc_esq opt_parametros colc_dir bloco_comandos |
+		{procedimento} procedure id colc_esq opt_parametros colc_dir bloco_comandos;
 
 	opt_parametros =
 		{com_parametros} parametros |
@@ -203,7 +203,7 @@ Productions
 		{base} ; /* vazio */
 
 	mais_parametros =
-		virgula parametro;
+		pipe parametro;
 
 	parametro =
 		tipo id;
@@ -212,7 +212,7 @@ Productions
 		start bloco_comandos;
 
 	bloco_comandos =
-		colc_esq lista_comando colc_dir;
+		start lista_comando finish;
 
 	/* Substitui o operador zero ou mais '*' usando recursão à esquerda */
 	lista_comando =
@@ -220,16 +220,19 @@ Productions
 		{base} ; /* vazio */
 
 	comando =
-		{atribuicao} id atribuicao expressao ponto |
-		{condicional} if par_esq expressao par_dir [entao]:bloco_comandos opt_cmd_else |
-		{retorno} finish opt_expressao ponto;
-
-	opt_cmd_else =
-		{com_else} cmd_else |
-		{sem_else} ; 
+		{atribuicao}	id atribuicao expressao ponto |
+		{ternario} 		if par_esq expressao par_dir [entao_ter]:bloco_comandos cmd_else |
+		{condicional} 	in case that par_esq expressao par_dir bloco_comandos opt_cmd_otherwise |
+		{laco}         	[abre_as]:as long [fecha_as]:as par_esq expressao par_dir bloco_comandos |
+		{bloco}        bloco_comandos ;
+ 
 
 	cmd_else =
 		else bloco_comandos;
+		
+	opt_cmd_otherwise =
+        {com_otherwise} otherwise bloco_comandos |
+        {sem_otherwise} ;
 
 	opt_expressao =
 		{com_expressao} expressao |
@@ -267,4 +270,25 @@ Productions
 		{booleano_v} yes |
 		{booleano_f} no |
 		{negacao} nao fator |
-		{parenteses} par_esq expressao par_dir;
+		
+		// O operador ternário real da v4 (Retorna valor dentro da expressão)
+        {ternario_expr} if par_esq [cond]:expressao par_dir [v_true]:expressao else [v_false]:expressao |
+        
+        // Acessos encadeados (ex: player->combat->damage)
+        {acesso_seta}   prefixo_acesso+ id |
+        
+        // Chamadas de método (ex: calcular[x | y])
+        {chamada_expr}  id colc_esq lista_exp? colc_dir |
+        
+		{parenteses} 	par_esq expressao par_dir;
+		
+		
+	/* Regras auxiliares para suporte dos acessos e chamadas */
+    prefixo_acesso = 
+        id seta;
+
+    lista_exp = 
+        expressao lista_mais_exp*;
+
+    lista_mais_exp = 
+        pipe expressao;

@@ -2,14 +2,13 @@
 
 package dplusplus.node;
 
-import java.util.*;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
 public final class AGenealogia extends PGenealogia
 {
     private PRelacao _relacao_;
-    private final LinkedList<PMaisRelacao> _maisRelacao_ = new LinkedList<PMaisRelacao>();
+    private PListaMaisRelacao _listaMaisRelacao_;
     private TPonto _ponto_;
 
     public AGenealogia()
@@ -19,13 +18,13 @@ public final class AGenealogia extends PGenealogia
 
     public AGenealogia(
         @SuppressWarnings("hiding") PRelacao _relacao_,
-        @SuppressWarnings("hiding") List<?> _maisRelacao_,
+        @SuppressWarnings("hiding") PListaMaisRelacao _listaMaisRelacao_,
         @SuppressWarnings("hiding") TPonto _ponto_)
     {
         // Constructor
         setRelacao(_relacao_);
 
-        setMaisRelacao(_maisRelacao_);
+        setListaMaisRelacao(_listaMaisRelacao_);
 
         setPonto(_ponto_);
 
@@ -36,7 +35,7 @@ public final class AGenealogia extends PGenealogia
     {
         return new AGenealogia(
             cloneNode(this._relacao_),
-            cloneList(this._maisRelacao_),
+            cloneNode(this._listaMaisRelacao_),
             cloneNode(this._ponto_));
     }
 
@@ -71,30 +70,29 @@ public final class AGenealogia extends PGenealogia
         this._relacao_ = node;
     }
 
-    public LinkedList<PMaisRelacao> getMaisRelacao()
+    public PListaMaisRelacao getListaMaisRelacao()
     {
-        return this._maisRelacao_;
+        return this._listaMaisRelacao_;
     }
 
-    public void setMaisRelacao(List<?> list)
+    public void setListaMaisRelacao(PListaMaisRelacao node)
     {
-        for(PMaisRelacao e : this._maisRelacao_)
+        if(this._listaMaisRelacao_ != null)
         {
-            e.parent(null);
+            this._listaMaisRelacao_.parent(null);
         }
-        this._maisRelacao_.clear();
 
-        for(Object obj_e : list)
+        if(node != null)
         {
-            PMaisRelacao e = (PMaisRelacao) obj_e;
-            if(e.parent() != null)
+            if(node.parent() != null)
             {
-                e.parent().removeChild(e);
+                node.parent().removeChild(node);
             }
 
-            e.parent(this);
-            this._maisRelacao_.add(e);
+            node.parent(this);
         }
+
+        this._listaMaisRelacao_ = node;
     }
 
     public TPonto getPonto()
@@ -127,7 +125,7 @@ public final class AGenealogia extends PGenealogia
     {
         return ""
             + toString(this._relacao_)
-            + toString(this._maisRelacao_)
+            + toString(this._listaMaisRelacao_)
             + toString(this._ponto_);
     }
 
@@ -141,8 +139,9 @@ public final class AGenealogia extends PGenealogia
             return;
         }
 
-        if(this._maisRelacao_.remove(child))
+        if(this._listaMaisRelacao_ == child)
         {
+            this._listaMaisRelacao_ = null;
             return;
         }
 
@@ -165,22 +164,10 @@ public final class AGenealogia extends PGenealogia
             return;
         }
 
-        for(ListIterator<PMaisRelacao> i = this._maisRelacao_.listIterator(); i.hasNext();)
+        if(this._listaMaisRelacao_ == oldChild)
         {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((PMaisRelacao) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
-
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
+            setListaMaisRelacao((PListaMaisRelacao) newChild);
+            return;
         }
 
         if(this._ponto_ == oldChild)

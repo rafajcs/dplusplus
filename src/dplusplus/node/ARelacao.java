@@ -8,10 +8,10 @@ import dplusplus.analysis.*;
 public final class ARelacao extends PRelacao
 {
     private TFamily _family_;
-    private PTipoClasse _filho_;
+    private TIdClasse _filho_;
     private TDerives _derives_;
     private TFrom _from_;
-    private PTipoClasse _pai_;
+    private TIdClasse _pai_;
 
     public ARelacao()
     {
@@ -20,10 +20,10 @@ public final class ARelacao extends PRelacao
 
     public ARelacao(
         @SuppressWarnings("hiding") TFamily _family_,
-        @SuppressWarnings("hiding") PTipoClasse _filho_,
+        @SuppressWarnings("hiding") TIdClasse _filho_,
         @SuppressWarnings("hiding") TDerives _derives_,
         @SuppressWarnings("hiding") TFrom _from_,
-        @SuppressWarnings("hiding") PTipoClasse _pai_)
+        @SuppressWarnings("hiding") TIdClasse _pai_)
     {
         // Constructor
         setFamily(_family_);
@@ -80,12 +80,12 @@ public final class ARelacao extends PRelacao
         this._family_ = node;
     }
 
-    public PTipoClasse getFilho()
+    public TIdClasse getFilho()
     {
         return this._filho_;
     }
 
-    public void setFilho(PTipoClasse node)
+    public void setFilho(TIdClasse node)
     {
         if(this._filho_ != null)
         {
@@ -155,12 +155,12 @@ public final class ARelacao extends PRelacao
         this._from_ = node;
     }
 
-    public PTipoClasse getPai()
+    public TIdClasse getPai()
     {
         return this._pai_;
     }
 
-    public void setPai(PTipoClasse node)
+    public void setPai(TIdClasse node)
     {
         if(this._pai_ != null)
         {
@@ -240,7 +240,7 @@ public final class ARelacao extends PRelacao
 
         if(this._filho_ == oldChild)
         {
-            setFilho((PTipoClasse) newChild);
+            setFilho((TIdClasse) newChild);
             return;
         }
 
@@ -258,7 +258,7 @@ public final class ARelacao extends PRelacao
 
         if(this._pai_ == oldChild)
         {
-            setPai((PTipoClasse) newChild);
+            setPai((TIdClasse) newChild);
             return;
         }
 
