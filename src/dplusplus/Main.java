@@ -2,6 +2,7 @@ package dplusplus;
 
 import dplusplus.lexer.*;
 import dplusplus.node.*;
+import dplusplus.parser.*;
 import java.io.*;
 
 public class Main {
@@ -13,18 +14,16 @@ public class Main {
 		try (PushbackReader reader = new PushbackReader(new FileReader(arquivo), 1024)) {
 
 			Lexer lexer = new Lexer(reader);
-			Token token;
+			Parser parser = new Parser(lexer);
 
-			while (!((token = lexer.next()) instanceof EOF)) {
-				if (token instanceof TVazio || token instanceof TComentLinha || token instanceof TComentBloco) {
-					continue;
-				}
-				String tipo = token.getClass().getSimpleName();
-				String lexema = token.getText().replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t");
-				System.out.printf("<%s, \"%s\"> linha %d, coluna %d%n",
-						tipo, lexema, token.getLine(), token.getPos());
-			}
+			Start arvore = parser.parse();
 
+			System.out.println("Analise sintatica concluida com sucesso.");
+			System.out.println("Arvore sintatica:");
+			arvore.apply(new ASTPrinter());
+
+		} catch (ParserException e) {
+			System.err.println("ERRO SINTATICO: " + e.getMessage());
 		} catch (LexerException e) {
 			System.err.println("ERRO LEXICO: " + e.getMessage());
 		} catch (FileNotFoundException e) {
