@@ -1,0 +1,4 @@
+-- Tipo inexistente na declaracao
+
+alterable texto x << 1.
+unalterable inteiro y << 42.

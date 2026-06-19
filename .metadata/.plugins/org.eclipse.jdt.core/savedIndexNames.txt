@@ -1,0 +1,1 @@
+INDEX VERSION 1.134+/home/cteimach/Cauan/UFS/7_Periodo/Compiladores/dplusplus/.metadata/.plugins/org.eclipse.jdt.core

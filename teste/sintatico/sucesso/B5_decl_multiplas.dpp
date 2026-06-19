@@ -1,0 +1,7 @@
+-- Sequencia de declaracoes distintas no mesmo arquivo
+
+alterable number contador << 0.
+unalterable answer ligado << yes.
+object No cabeca.
+alterable number total << contador + 1.
+object Periphericals io.

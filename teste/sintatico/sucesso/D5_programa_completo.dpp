@@ -1,0 +1,18 @@
+-- Programa completo: genealogia + classes + corpo principal
+
+family No derives from NoBase .
+
+family NoBase start
+    function number getValor[] start
+        finish
+finish
+
+family Programa start
+    procedure main[] start
+        alterable number v << 42.
+        v << v + 1.
+        in case that (v > 0) start
+            v << v - 1.
+        finish
+    finish
+finish

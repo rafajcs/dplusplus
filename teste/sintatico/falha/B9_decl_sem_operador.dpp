@@ -1,0 +1,4 @@
+-- Declaracao sem o operador de atribuicao <<
+
+alterable number x 10.
+unalterable answer flag yes.

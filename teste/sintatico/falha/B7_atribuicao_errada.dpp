@@ -1,0 +1,5 @@
+-- Uso de operadores de atribuicao incorretos no lugar de <<
+
+alterable number x = 10.
+alterable number y := 5.
+unalterable answer flag = yes.

@@ -1,0 +1,9 @@
+-- Laço de repeticao as long as
+
+as long as (n > 1) start
+    n << n - 1.
+finish
+
+as long as (contador < 10) start
+    contador << contador + 1.
+finish

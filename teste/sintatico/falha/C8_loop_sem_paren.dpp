@@ -1,0 +1,9 @@
+-- Ausencia de parenteses na condicao do laço
+
+as long as x < 10 start
+    x << x + 1.
+finish
+
+as long as n > 0 start
+    n << n - 1.
+finish

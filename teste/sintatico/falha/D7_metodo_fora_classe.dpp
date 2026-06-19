@@ -1,0 +1,7 @@
+-- Metodo declarado fora do escopo de uma classe
+
+function number f[] start
+finish
+
+procedure p[] start
+finish

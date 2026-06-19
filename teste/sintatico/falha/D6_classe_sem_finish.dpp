@@ -1,0 +1,4 @@
+-- Classe sem o delimitador de fechamento finish
+
+family X start
+    alterable number x << 0.

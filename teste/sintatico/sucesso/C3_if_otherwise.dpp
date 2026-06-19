@@ -1,0 +1,13 @@
+-- Condicional completo com otherwise
+
+in case that (x > 0) start
+    x << 1.
+finish otherwise start
+    x << 0.
+finish
+
+in case that (a < b) start
+    resultado << a.
+finish otherwise start
+    resultado << b.
+finish

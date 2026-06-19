@@ -1,0 +1,4 @@
+-- Tentativa de atribuir valor na declaracao de um objeto
+
+object No n << 0.
+object Lista l << cabeca.

@@ -1,0 +1,5 @@
+-- Declaracoes de constantes (unalterable)
+
+unalterable number PI << 3.14.
+unalterable answer ok << yes.
+unalterable answer desligado << no.

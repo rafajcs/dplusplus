@@ -1,0 +1,13 @@
+-- Classe com function e procedure, parametros separados por |
+
+family Calculadora start
+
+    function number soma[number a | number b] start
+        alterable number r << a + b.
+    finish
+
+    procedure exibir[number valor] start
+        io.show[valor].
+    finish
+
+finish

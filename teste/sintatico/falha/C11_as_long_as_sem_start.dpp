@@ -1,0 +1,5 @@
+-- Corpo do laço sem start
+
+as long as (x < 10) x << x + 1. finish
+
+as long as (n > 0) n << n - 1. finish

@@ -1,0 +1,7 @@
+-- Condicional sem o delimitador finish
+
+in case that (x > 0) start
+    x << 1.
+
+in case that (flag = yes) start
+    resultado << 100.

@@ -1,0 +1,6 @@
+-- Declaracoes cujo RHS reutiliza expressoes da fase A
+
+alterable number soma << (a + b) * 2.
+alterable answer negado << !flag.
+alterable number dano << player->combat->damage.
+alterable number limite << if (x > 0) 1 else 0.

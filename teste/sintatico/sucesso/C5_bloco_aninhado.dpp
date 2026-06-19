@@ -1,0 +1,13 @@
+-- Blocos de comando aninhados
+
+in case that (x > 0) start
+    as long as (x < 10) start
+        x << x + 1.
+    finish
+finish
+
+in case that (a > b) start
+    in case that (b > 0) start
+        resultado << a - b.
+    finish
+finish

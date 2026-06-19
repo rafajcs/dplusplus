@@ -1,0 +1,5 @@
+-- Heranca sem a palavra reservada from
+
+family A derives B .
+
+family Filha derives Mae .

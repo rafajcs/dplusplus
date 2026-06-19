@@ -1,0 +1,5 @@
+-- Ausencia do ponto final como delimitador de instrucao
+
+alterable number x << 10
+object No n
+unalterable answer ok << yes

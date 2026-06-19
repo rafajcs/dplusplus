@@ -1,0 +1,3 @@
+-- Heranca multipla usando o token &
+
+family Car derives from Vehicle & family Truck derives from Vehicle & Machine .

@@ -1,0 +1,5 @@
+-- Erro de sintaxe na linha de heranca genetica (token invalido)
+
+family A extends from B .
+
+family C inherits from D .

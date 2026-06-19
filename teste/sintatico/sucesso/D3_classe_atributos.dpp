@@ -1,0 +1,8 @@
+-- Classe com atributos alteraveis, constantes e objetos
+
+family Animal start
+    unalterable number PI << 3.14.
+    alterable number idade << 0.
+    alterable answer vivo << yes.
+    object No referencia.
+finish

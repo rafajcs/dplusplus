@@ -1,0 +1,9 @@
+-- Declaracao local inserida dentro de bloco de comando
+
+in case that (x > 0) start
+    alterable number y << 1.
+finish
+
+as long as (n > 0) start
+    object No temp.
+finish

@@ -1,0 +1,5 @@
+-- Atribuicoes puras a variaveis ja existentes
+
+x << 10.
+resultado << x + y.
+flag << !ativo.

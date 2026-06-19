@@ -1,0 +1,5 @@
+-- Genealogia sem ponto final
+
+family A derives from B
+
+family Filha derives from Mae & family Neto derives from Filha

@@ -1,0 +1,6 @@
+-- Declaracoes alteraveis com tipos number e answer
+
+alterable number x << 10.
+alterable number y << 3.14.
+alterable answer flag << yes.
+alterable answer ativo << no.

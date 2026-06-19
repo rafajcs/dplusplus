@@ -1,0 +1,11 @@
+-- Bloco como comando (start ... finish)
+
+start
+    x << 1.
+finish
+
+in case that (x > 0) start
+    start
+        x << x + 1.
+    finish
+finish

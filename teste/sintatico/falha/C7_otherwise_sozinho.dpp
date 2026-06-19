@@ -1,0 +1,9 @@
+-- Cláusula otherwise solta sem in case that correspondente
+
+otherwise start
+    x << 0.
+finish
+
+otherwise start
+    resultado << -1.
+finish

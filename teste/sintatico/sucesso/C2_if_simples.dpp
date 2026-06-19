@@ -1,0 +1,9 @@
+-- Condicional in case that sem clausula otherwise
+
+in case that (x > 0) start
+    x << x - 1.
+finish
+
+in case that (flag = yes) start
+    resultado << 100.
+finish
