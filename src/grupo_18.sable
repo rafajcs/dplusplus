@@ -264,31 +264,42 @@ Productions
 		{simples} fator;
 
 	fator =
-		{id} id |
-		{inteiro} valor_inteiro |
-		{real} valor_real |
-		{booleano_v} yes |
-		{booleano_f} no |
-		{negacao} nao fator |
-		
-		// O operador ternário real da v4 (Retorna valor dentro da expressão)
+        {id} id |
+        {inteiro} valor_inteiro |
+        {real} valor_real |
+        {booleano_v} yes |
+        {booleano_f} no |
+        {negacao} nao fator |
+        
+        // O operador ternário real da v4 (Retorna valor dentro da expressão)
         {ternario_expr} if par_esq [cond]:expressao par_dir [v_true]:expressao else [v_false]:expressao |
         
-        // Acessos encadeados (ex: player->combat->damage)
-        {acesso_seta}   prefixo_acesso+ id |
+        // CORRIGIDO: Agora usa uma lista estritamente Bottom-Up sem o operador '+'
+        {acesso_seta}   lista_prefixo_acesso id |
         
         // Chamadas de método (ex: calcular[x | y])
-        {chamada_expr}  id colc_esq lista_exp? colc_dir |
+        {chamada_expr}  id colc_esq opt_lista_exp colc_dir |
         
-		{parenteses} 	par_esq expressao par_dir;
-		
-		
-	/* Regras auxiliares para suporte dos acessos e chamadas */
+        {parenteses}     par_esq expressao par_dir;
+        
+
+    lista_prefixo_acesso =
+        {multiplos} lista_prefixo_acesso prefixo_acesso |
+        {base} prefixo_acesso;
+
     prefixo_acesso = 
-        id seta;
+        id acesso;
+
+    opt_lista_exp =
+        {com_exp} lista_exp |
+        {sem_exp} ; /* vazio */
 
     lista_exp = 
-        expressao lista_mais_exp*;
+        expressao lista_mais_exp;
 
-    lista_mais_exp = 
+    lista_mais_exp =
+        {multiplos} lista_mais_exp mais_exp |
+        {base} ; /* vazio */
+
+    mais_exp = 
         pipe expressao;
