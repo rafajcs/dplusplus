@@ -94,7 +94,7 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseTAcesso(@SuppressWarnings("unused") TAcesso node)
+    public void caseTSeta(@SuppressWarnings("unused") TSeta node)
     {
         this.index = 14;
     }

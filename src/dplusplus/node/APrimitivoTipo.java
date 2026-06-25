@@ -5,46 +5,46 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASimplesExpressao extends PExpressao
+public final class APrimitivoTipo extends PTipo
 {
-    private PExpressaoOu _expressaoOu_;
+    private PTipoPrimitivo _tipoPrimitivo_;
 
-    public ASimplesExpressao()
+    public APrimitivoTipo()
     {
         // Constructor
     }
 
-    public ASimplesExpressao(
-        @SuppressWarnings("hiding") PExpressaoOu _expressaoOu_)
+    public APrimitivoTipo(
+        @SuppressWarnings("hiding") PTipoPrimitivo _tipoPrimitivo_)
     {
         // Constructor
-        setExpressaoOu(_expressaoOu_);
+        setTipoPrimitivo(_tipoPrimitivo_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASimplesExpressao(
-            cloneNode(this._expressaoOu_));
+        return new APrimitivoTipo(
+            cloneNode(this._tipoPrimitivo_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASimplesExpressao(this);
+        ((Analysis) sw).caseAPrimitivoTipo(this);
     }
 
-    public PExpressaoOu getExpressaoOu()
+    public PTipoPrimitivo getTipoPrimitivo()
     {
-        return this._expressaoOu_;
+        return this._tipoPrimitivo_;
     }
 
-    public void setExpressaoOu(PExpressaoOu node)
+    public void setTipoPrimitivo(PTipoPrimitivo node)
     {
-        if(this._expressaoOu_ != null)
+        if(this._tipoPrimitivo_ != null)
         {
-            this._expressaoOu_.parent(null);
+            this._tipoPrimitivo_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ASimplesExpressao extends PExpressao
             node.parent(this);
         }
 
-        this._expressaoOu_ = node;
+        this._tipoPrimitivo_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expressaoOu_);
+            + toString(this._tipoPrimitivo_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expressaoOu_ == child)
+        if(this._tipoPrimitivo_ == child)
         {
-            this._expressaoOu_ = null;
+            this._tipoPrimitivo_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ASimplesExpressao extends PExpressao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expressaoOu_ == oldChild)
+        if(this._tipoPrimitivo_ == oldChild)
         {
-            setExpressaoOu((PExpressaoOu) newChild);
+            setTipoPrimitivo((PTipoPrimitivo) newChild);
             return;
         }
 

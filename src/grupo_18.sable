@@ -129,8 +129,8 @@ Productions
 
 	/* substitui o operador de um ou mais */
 	lista_definicao_corpo =
-		{multiplas} lista_definicao_corpo definicao_corpo |
-		{base} definicao_corpo;
+		{multiplas} lista_definicao_corpo declaracao_classe |
+		{base} declaracao_classe;
 
 	genealogia = 
 		relacao lista_mais_relacao ponto;
@@ -146,50 +146,43 @@ Productions
 	relacao = 
 		family [filho]:id_classe derives from [pai]:id_classe;
 
-	definicao_corpo =
-		{classe} declaracao_classe |
-		{bloco_principal} bloco_start;
-
 	declaracao_classe =
 		family id_classe start lista_componentes finish;
-
-	/* substitui o operador opcional '?' */
-	opt_bloco_componentes =
-		{com_componentes} bloco_componentes |
-		{sem_componentes} ; /* vazio */
-
-	bloco_componentes =
-		colc_esq lista_componentes colc_dir;
 
 	/* Substitui o operador zero ou mais '*' usando recursão à esquerda */
 	lista_componentes =
 		{multiplos} lista_componentes componentes |
-		{base} ; /* vazio */
+		{base} ;
 
 	componentes =
-		{atributo} atributo |
+		{var}    dec_var |
+		{cons}   dec_cons |
+		{obj}    dec_obj |
 		{metodo} metodo;
+		
+	/* Restrição de Tipos: Variáveis e Constantes exigem primitivos. Objetos exigem ID de Classe */
+	dec_var  = alterable tipo_primitivo id atribuicao expressao ponto;
+	dec_cons = unalterable tipo_primitivo id atribuicao expressao ponto;
+	dec_obj  = object id_classe id ponto;
 
-	atributo =
-		opt_modificador tipo id ponto;
-
-	opt_modificador =
-		{com_modificador} modificador |
-		{sem_modificador} ; /* vazio */
-
-	modificador =
-		{alteravel} alterable |
-		{constante} unalterable;
+	tipo_primitivo =
+		{inteiro} number |
+		{booleano} answer;
 
 	tipo =
-		{inteiro} number |
-		{booleano} answer |
+		{primitivo} tipo_primitivo |
 		{classe} id_classe;
 
 	metodo =
-		{funcao} function tipo id colc_esq opt_parametros colc_dir bloco_comandos |
-		{procedimento} procedure id colc_esq opt_parametros colc_dir bloco_comandos;
+		{funcao_concreta}    function tipo id colc_esq opt_parametros colc_dir bloco_exp |
+		{funcao_abstrata}    function tipo id colc_esq opt_parametros colc_dir ponto |
+		{procedimento_concr} procedure opt_marcador_entrada id colc_esq opt_parametros colc_dir bloco_comandos |
+		{procedimento_abst}  procedure opt_marcador_entrada id colc_esq opt_parametros colc_dir ponto;
 
+	opt_marcador_entrada =
+		{com_marcador} marcador_entrada |
+		{sem_marcador} ;
+	
 	opt_parametros =
 		{com_parametros} parametros |
 		{sem_parametros} ; /* vazio */
@@ -208,28 +201,37 @@ Productions
 	parametro =
 		tipo id;
 
-	bloco_start =
-		start bloco_comandos;
 
+	/* Blocos Estruturados: bloco_exp isola declarações locais e impede ambiguidades */
 	bloco_comandos =
 		start lista_comando finish;
 
-	/* Substitui o operador zero ou mais '*' usando recursão à esquerda */
+	bloco_exp =
+		start lista_dec_local lista_comando expressao finish;
+		
+	lista_dec_local =
+		{multiplos} lista_dec_local dec_local |
+		{base} ;
+
+	dec_local = 
+		{var}  dec_var | 
+		{cons} dec_cons | 
+		{obj}  dec_obj;
+	
+	
 	lista_comando =
 		{multiplos} lista_comando comando |
-		{base} ; /* vazio */
+		{base} ; 
 
 	comando =
 		{atribuicao}	id atribuicao expressao ponto |
-		{ternario} 		if par_esq expressao par_dir [entao_ter]:bloco_comandos cmd_else |
+		
+		/* CORREÇÃO: Permite chamadas de método puras como comandos executáveis (ex: io->show[...].) */
+		{chamada_cmd}   opt_lista_prefixo_acesso id colc_esq opt_lista_exp colc_dir ponto |
 		{condicional} 	in case that par_esq expressao par_dir bloco_comandos opt_cmd_otherwise |
 		{laco}         	[abre_as]:as long [fecha_as]:as par_esq expressao par_dir bloco_comandos |
-		{bloco}        bloco_comandos ;
+		{bloco}        	bloco_comandos ;
  
-
-	cmd_else =
-		else bloco_comandos;
-		
 	opt_cmd_otherwise =
         {com_otherwise} otherwise bloco_comandos |
         {sem_otherwise} ;
@@ -239,8 +241,20 @@ Productions
 		{sem_expressao} ; 
 
 
+	/* ============================================================
+	   REGRAS DE EXPRESSÕES (Hierarquia de Precedência Corrigida)
+	   ============================================================ */
+
+	/* O Ternário agora é a base da hierarquia (menor precedência).
+	   v_true usa 'expressao_ou' para evitar que o 'else' cause ambiguidade.
+	   v_false usa 'expressao' permitindo ternários aninhados à direita (if else if else). */
+	   
 	expressao =
-		{ou} expressao or expressao_and |
+		{ternario_expr} if par_esq [cond]:expressao par_dir [v_true]:expressao_ou else [v_false]:expressao |
+		{simples} expressao_ou;
+
+	expressao_ou =
+		{ou} expressao_ou or expressao_and |
 		{simples} expressao_and;
 
 	expressao_and =
@@ -263,32 +277,30 @@ Productions
 		{divisao} termo div fator |
 		{simples} fator;
 
+	/* Fator limpo e sem o nó causador de conflitos */
 	fator =
-        {id} id |
-        {inteiro} valor_inteiro |
-        {real} valor_real |
-        {booleano_v} yes |
-        {booleano_f} no |
-        {negacao} nao fator |
-        
-        // O operador ternário real da v4 (Retorna valor dentro da expressão)
-        {ternario_expr} if par_esq [cond]:expressao par_dir [v_true]:expressao else [v_false]:expressao |
-        
-        // CORRIGIDO: Agora usa uma lista estritamente Bottom-Up sem o operador '+'
+        {id}            id |
+        {inteiro}       valor_inteiro |
+        {real}          valor_real |
+        {booleano_v}    yes |
+        {booleano_f}    no |
+        {negacao}       nao fator |
+        {menos_unario}  menos fator |
         {acesso_seta}   lista_prefixo_acesso id |
-        
-        // Chamadas de método (ex: calcular[x | y])
-        {chamada_expr}  id colc_esq opt_lista_exp colc_dir |
-        
-        {parenteses}     par_esq expressao par_dir;
+        {chamada_expr}  opt_lista_prefixo_acesso id colc_esq opt_lista_exp colc_dir |
+        {parenteses}    par_esq expressao par_dir;
         
 
     lista_prefixo_acesso =
         {multiplos} lista_prefixo_acesso prefixo_acesso |
         {base} prefixo_acesso;
 
+	opt_lista_prefixo_acesso =
+        {com_acesso} lista_prefixo_acesso |
+        {sem_acesso} ;
+    
     prefixo_acesso = 
-        id acesso;
+        id seta;
 
     opt_lista_exp =
         {com_exp} lista_exp |

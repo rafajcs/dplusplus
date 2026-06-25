@@ -7,7 +7,7 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class ABaseListaDefinicaoCorpo extends PListaDefinicaoCorpo
 {
-    private PDefinicaoCorpo _definicaoCorpo_;
+    private PDeclaracaoClasse _declaracaoClasse_;
 
     public ABaseListaDefinicaoCorpo()
     {
@@ -15,10 +15,10 @@ public final class ABaseListaDefinicaoCorpo extends PListaDefinicaoCorpo
     }
 
     public ABaseListaDefinicaoCorpo(
-        @SuppressWarnings("hiding") PDefinicaoCorpo _definicaoCorpo_)
+        @SuppressWarnings("hiding") PDeclaracaoClasse _declaracaoClasse_)
     {
         // Constructor
-        setDefinicaoCorpo(_definicaoCorpo_);
+        setDeclaracaoClasse(_declaracaoClasse_);
 
     }
 
@@ -26,7 +26,7 @@ public final class ABaseListaDefinicaoCorpo extends PListaDefinicaoCorpo
     public Object clone()
     {
         return new ABaseListaDefinicaoCorpo(
-            cloneNode(this._definicaoCorpo_));
+            cloneNode(this._declaracaoClasse_));
     }
 
     @Override
@@ -35,16 +35,16 @@ public final class ABaseListaDefinicaoCorpo extends PListaDefinicaoCorpo
         ((Analysis) sw).caseABaseListaDefinicaoCorpo(this);
     }
 
-    public PDefinicaoCorpo getDefinicaoCorpo()
+    public PDeclaracaoClasse getDeclaracaoClasse()
     {
-        return this._definicaoCorpo_;
+        return this._declaracaoClasse_;
     }
 
-    public void setDefinicaoCorpo(PDefinicaoCorpo node)
+    public void setDeclaracaoClasse(PDeclaracaoClasse node)
     {
-        if(this._definicaoCorpo_ != null)
+        if(this._declaracaoClasse_ != null)
         {
-            this._definicaoCorpo_.parent(null);
+            this._declaracaoClasse_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ABaseListaDefinicaoCorpo extends PListaDefinicaoCorpo
             node.parent(this);
         }
 
-        this._definicaoCorpo_ = node;
+        this._declaracaoClasse_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._definicaoCorpo_);
+            + toString(this._declaracaoClasse_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._definicaoCorpo_ == child)
+        if(this._declaracaoClasse_ == child)
         {
-            this._definicaoCorpo_ = null;
+            this._declaracaoClasse_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ABaseListaDefinicaoCorpo extends PListaDefinicaoCorpo
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._definicaoCorpo_ == oldChild)
+        if(this._declaracaoClasse_ == oldChild)
         {
-            setDefinicaoCorpo((PDefinicaoCorpo) newChild);
+            setDeclaracaoClasse((PDeclaracaoClasse) newChild);
             return;
         }
 

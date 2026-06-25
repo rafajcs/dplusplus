@@ -5,25 +5,27 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AChamadaExprFator extends PFator
+public final class AChamadaCmdComando extends PComando
 {
     private POptListaPrefixoAcesso _optListaPrefixoAcesso_;
     private TId _id_;
     private TColcEsq _colcEsq_;
     private POptListaExp _optListaExp_;
     private TColcDir _colcDir_;
+    private TPonto _ponto_;
 
-    public AChamadaExprFator()
+    public AChamadaCmdComando()
     {
         // Constructor
     }
 
-    public AChamadaExprFator(
+    public AChamadaCmdComando(
         @SuppressWarnings("hiding") POptListaPrefixoAcesso _optListaPrefixoAcesso_,
         @SuppressWarnings("hiding") TId _id_,
         @SuppressWarnings("hiding") TColcEsq _colcEsq_,
         @SuppressWarnings("hiding") POptListaExp _optListaExp_,
-        @SuppressWarnings("hiding") TColcDir _colcDir_)
+        @SuppressWarnings("hiding") TColcDir _colcDir_,
+        @SuppressWarnings("hiding") TPonto _ponto_)
     {
         // Constructor
         setOptListaPrefixoAcesso(_optListaPrefixoAcesso_);
@@ -36,23 +38,26 @@ public final class AChamadaExprFator extends PFator
 
         setColcDir(_colcDir_);
 
+        setPonto(_ponto_);
+
     }
 
     @Override
     public Object clone()
     {
-        return new AChamadaExprFator(
+        return new AChamadaCmdComando(
             cloneNode(this._optListaPrefixoAcesso_),
             cloneNode(this._id_),
             cloneNode(this._colcEsq_),
             cloneNode(this._optListaExp_),
-            cloneNode(this._colcDir_));
+            cloneNode(this._colcDir_),
+            cloneNode(this._ponto_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAChamadaExprFator(this);
+        ((Analysis) sw).caseAChamadaCmdComando(this);
     }
 
     public POptListaPrefixoAcesso getOptListaPrefixoAcesso()
@@ -180,6 +185,31 @@ public final class AChamadaExprFator extends PFator
         this._colcDir_ = node;
     }
 
+    public TPonto getPonto()
+    {
+        return this._ponto_;
+    }
+
+    public void setPonto(TPonto node)
+    {
+        if(this._ponto_ != null)
+        {
+            this._ponto_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._ponto_ = node;
+    }
+
     @Override
     public String toString()
     {
@@ -188,7 +218,8 @@ public final class AChamadaExprFator extends PFator
             + toString(this._id_)
             + toString(this._colcEsq_)
             + toString(this._optListaExp_)
-            + toString(this._colcDir_);
+            + toString(this._colcDir_)
+            + toString(this._ponto_);
     }
 
     @Override
@@ -222,6 +253,12 @@ public final class AChamadaExprFator extends PFator
         if(this._colcDir_ == child)
         {
             this._colcDir_ = null;
+            return;
+        }
+
+        if(this._ponto_ == child)
+        {
+            this._ponto_ = null;
             return;
         }
 
@@ -259,6 +296,12 @@ public final class AChamadaExprFator extends PFator
         if(this._colcDir_ == oldChild)
         {
             setColcDir((TColcDir) newChild);
+            return;
+        }
+
+        if(this._ponto_ == oldChild)
+        {
+            setPonto((TPonto) newChild);
             return;
         }
 

@@ -8,7 +8,7 @@
 family Animal derives from Root & family Cachorro derives from Animal.
 
 family Animal start
-    unalterable number PI << 3.14.       -- constante real
+    unalterable number pi << 3.14.       -- constante real
     alterable answer ativo << yes.
     alterable answer parado << no.
 
@@ -16,18 +16,18 @@ family Animal start
     function answer compararIdade [number a | number b] start
         alterable answer resultado << (a > b) and !(a = b).
         resultado
-    finish.
+    finish
 
     -- Funcao que usa bloco_exp como corpo
     function number calcularArea [number raio]
         start
             alterable number r << raio.
-            r * r * PI
-        finish.
+            r * r * pi
+        finish
 finish
 
 family Cachorro start
-    >>procedure principal [] start
+    >> procedure principal [] start
         alterable number x << 2.5.
         alterable number y << 1.0.
         alterable answer flag << yes or no.

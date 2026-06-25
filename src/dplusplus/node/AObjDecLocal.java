@@ -5,46 +5,46 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASimplesExpressao extends PExpressao
+public final class AObjDecLocal extends PDecLocal
 {
-    private PExpressaoOu _expressaoOu_;
+    private PDecObj _decObj_;
 
-    public ASimplesExpressao()
+    public AObjDecLocal()
     {
         // Constructor
     }
 
-    public ASimplesExpressao(
-        @SuppressWarnings("hiding") PExpressaoOu _expressaoOu_)
+    public AObjDecLocal(
+        @SuppressWarnings("hiding") PDecObj _decObj_)
     {
         // Constructor
-        setExpressaoOu(_expressaoOu_);
+        setDecObj(_decObj_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASimplesExpressao(
-            cloneNode(this._expressaoOu_));
+        return new AObjDecLocal(
+            cloneNode(this._decObj_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASimplesExpressao(this);
+        ((Analysis) sw).caseAObjDecLocal(this);
     }
 
-    public PExpressaoOu getExpressaoOu()
+    public PDecObj getDecObj()
     {
-        return this._expressaoOu_;
+        return this._decObj_;
     }
 
-    public void setExpressaoOu(PExpressaoOu node)
+    public void setDecObj(PDecObj node)
     {
-        if(this._expressaoOu_ != null)
+        if(this._decObj_ != null)
         {
-            this._expressaoOu_.parent(null);
+            this._decObj_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ASimplesExpressao extends PExpressao
             node.parent(this);
         }
 
-        this._expressaoOu_ = node;
+        this._decObj_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expressaoOu_);
+            + toString(this._decObj_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expressaoOu_ == child)
+        if(this._decObj_ == child)
         {
-            this._expressaoOu_ = null;
+            this._decObj_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ASimplesExpressao extends PExpressao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expressaoOu_ == oldChild)
+        if(this._decObj_ == oldChild)
         {
-            setExpressaoOu((PExpressaoOu) newChild);
+            setDecObj((PDecObj) newChild);
             return;
         }
 

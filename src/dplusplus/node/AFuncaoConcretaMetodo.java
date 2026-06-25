@@ -5,66 +5,76 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AChamadaExprFator extends PFator
+public final class AFuncaoConcretaMetodo extends PMetodo
 {
-    private POptListaPrefixoAcesso _optListaPrefixoAcesso_;
+    private TFunction _function_;
+    private PTipo _tipo_;
     private TId _id_;
     private TColcEsq _colcEsq_;
-    private POptListaExp _optListaExp_;
+    private POptParametros _optParametros_;
     private TColcDir _colcDir_;
+    private PBlocoExp _blocoExp_;
 
-    public AChamadaExprFator()
+    public AFuncaoConcretaMetodo()
     {
         // Constructor
     }
 
-    public AChamadaExprFator(
-        @SuppressWarnings("hiding") POptListaPrefixoAcesso _optListaPrefixoAcesso_,
+    public AFuncaoConcretaMetodo(
+        @SuppressWarnings("hiding") TFunction _function_,
+        @SuppressWarnings("hiding") PTipo _tipo_,
         @SuppressWarnings("hiding") TId _id_,
         @SuppressWarnings("hiding") TColcEsq _colcEsq_,
-        @SuppressWarnings("hiding") POptListaExp _optListaExp_,
-        @SuppressWarnings("hiding") TColcDir _colcDir_)
+        @SuppressWarnings("hiding") POptParametros _optParametros_,
+        @SuppressWarnings("hiding") TColcDir _colcDir_,
+        @SuppressWarnings("hiding") PBlocoExp _blocoExp_)
     {
         // Constructor
-        setOptListaPrefixoAcesso(_optListaPrefixoAcesso_);
+        setFunction(_function_);
+
+        setTipo(_tipo_);
 
         setId(_id_);
 
         setColcEsq(_colcEsq_);
 
-        setOptListaExp(_optListaExp_);
+        setOptParametros(_optParametros_);
 
         setColcDir(_colcDir_);
+
+        setBlocoExp(_blocoExp_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AChamadaExprFator(
-            cloneNode(this._optListaPrefixoAcesso_),
+        return new AFuncaoConcretaMetodo(
+            cloneNode(this._function_),
+            cloneNode(this._tipo_),
             cloneNode(this._id_),
             cloneNode(this._colcEsq_),
-            cloneNode(this._optListaExp_),
-            cloneNode(this._colcDir_));
+            cloneNode(this._optParametros_),
+            cloneNode(this._colcDir_),
+            cloneNode(this._blocoExp_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAChamadaExprFator(this);
+        ((Analysis) sw).caseAFuncaoConcretaMetodo(this);
     }
 
-    public POptListaPrefixoAcesso getOptListaPrefixoAcesso()
+    public TFunction getFunction()
     {
-        return this._optListaPrefixoAcesso_;
+        return this._function_;
     }
 
-    public void setOptListaPrefixoAcesso(POptListaPrefixoAcesso node)
+    public void setFunction(TFunction node)
     {
-        if(this._optListaPrefixoAcesso_ != null)
+        if(this._function_ != null)
         {
-            this._optListaPrefixoAcesso_.parent(null);
+            this._function_.parent(null);
         }
 
         if(node != null)
@@ -77,7 +87,32 @@ public final class AChamadaExprFator extends PFator
             node.parent(this);
         }
 
-        this._optListaPrefixoAcesso_ = node;
+        this._function_ = node;
+    }
+
+    public PTipo getTipo()
+    {
+        return this._tipo_;
+    }
+
+    public void setTipo(PTipo node)
+    {
+        if(this._tipo_ != null)
+        {
+            this._tipo_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._tipo_ = node;
     }
 
     public TId getId()
@@ -130,16 +165,16 @@ public final class AChamadaExprFator extends PFator
         this._colcEsq_ = node;
     }
 
-    public POptListaExp getOptListaExp()
+    public POptParametros getOptParametros()
     {
-        return this._optListaExp_;
+        return this._optParametros_;
     }
 
-    public void setOptListaExp(POptListaExp node)
+    public void setOptParametros(POptParametros node)
     {
-        if(this._optListaExp_ != null)
+        if(this._optParametros_ != null)
         {
-            this._optListaExp_.parent(null);
+            this._optParametros_.parent(null);
         }
 
         if(node != null)
@@ -152,7 +187,7 @@ public final class AChamadaExprFator extends PFator
             node.parent(this);
         }
 
-        this._optListaExp_ = node;
+        this._optParametros_ = node;
     }
 
     public TColcDir getColcDir()
@@ -180,24 +215,57 @@ public final class AChamadaExprFator extends PFator
         this._colcDir_ = node;
     }
 
+    public PBlocoExp getBlocoExp()
+    {
+        return this._blocoExp_;
+    }
+
+    public void setBlocoExp(PBlocoExp node)
+    {
+        if(this._blocoExp_ != null)
+        {
+            this._blocoExp_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._blocoExp_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
-            + toString(this._optListaPrefixoAcesso_)
+            + toString(this._function_)
+            + toString(this._tipo_)
             + toString(this._id_)
             + toString(this._colcEsq_)
-            + toString(this._optListaExp_)
-            + toString(this._colcDir_);
+            + toString(this._optParametros_)
+            + toString(this._colcDir_)
+            + toString(this._blocoExp_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._optListaPrefixoAcesso_ == child)
+        if(this._function_ == child)
         {
-            this._optListaPrefixoAcesso_ = null;
+            this._function_ = null;
+            return;
+        }
+
+        if(this._tipo_ == child)
+        {
+            this._tipo_ = null;
             return;
         }
 
@@ -213,15 +281,21 @@ public final class AChamadaExprFator extends PFator
             return;
         }
 
-        if(this._optListaExp_ == child)
+        if(this._optParametros_ == child)
         {
-            this._optListaExp_ = null;
+            this._optParametros_ = null;
             return;
         }
 
         if(this._colcDir_ == child)
         {
             this._colcDir_ = null;
+            return;
+        }
+
+        if(this._blocoExp_ == child)
+        {
+            this._blocoExp_ = null;
             return;
         }
 
@@ -232,9 +306,15 @@ public final class AChamadaExprFator extends PFator
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._optListaPrefixoAcesso_ == oldChild)
+        if(this._function_ == oldChild)
         {
-            setOptListaPrefixoAcesso((POptListaPrefixoAcesso) newChild);
+            setFunction((TFunction) newChild);
+            return;
+        }
+
+        if(this._tipo_ == oldChild)
+        {
+            setTipo((PTipo) newChild);
             return;
         }
 
@@ -250,15 +330,21 @@ public final class AChamadaExprFator extends PFator
             return;
         }
 
-        if(this._optListaExp_ == oldChild)
+        if(this._optParametros_ == oldChild)
         {
-            setOptListaExp((POptListaExp) newChild);
+            setOptParametros((POptParametros) newChild);
             return;
         }
 
         if(this._colcDir_ == oldChild)
         {
             setColcDir((TColcDir) newChild);
+            return;
+        }
+
+        if(this._blocoExp_ == oldChild)
+        {
+            setBlocoExp((PBlocoExp) newChild);
             return;
         }
 

@@ -1,0 +1,22 @@
+family SistemaPrincipal start
+
+    -- Um atributo da classe para usarmos no teste
+	alterable number statusExecucao << 0.
+
+    -- O PONTO DE ENTRADA: Procedimento com o marcador '>>'
+    procedure >> iniciar [] start
+        
+        -- O programa começa executando esta linha de comando
+        statusExecucao << 1.
+        
+    finish
+    
+finish
+
+family Teste start
+	
+	function number fvk [] start
+    	if (user->isAdmin = yes and !user->blocked) system->run[cmd | 10 * 5] else no
+    finish
+
+finish

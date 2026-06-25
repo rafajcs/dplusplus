@@ -5,64 +5,39 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AListaExp extends PListaExp
+public final class AMultiplosListaMaisExp extends PListaMaisExp
 {
-    private PExpressao _expressao_;
     private PListaMaisExp _listaMaisExp_;
+    private PMaisExp _maisExp_;
 
-    public AListaExp()
+    public AMultiplosListaMaisExp()
     {
         // Constructor
     }
 
-    public AListaExp(
-        @SuppressWarnings("hiding") PExpressao _expressao_,
-        @SuppressWarnings("hiding") PListaMaisExp _listaMaisExp_)
+    public AMultiplosListaMaisExp(
+        @SuppressWarnings("hiding") PListaMaisExp _listaMaisExp_,
+        @SuppressWarnings("hiding") PMaisExp _maisExp_)
     {
         // Constructor
-        setExpressao(_expressao_);
-
         setListaMaisExp(_listaMaisExp_);
+
+        setMaisExp(_maisExp_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AListaExp(
-            cloneNode(this._expressao_),
-            cloneNode(this._listaMaisExp_));
+        return new AMultiplosListaMaisExp(
+            cloneNode(this._listaMaisExp_),
+            cloneNode(this._maisExp_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAListaExp(this);
-    }
-
-    public PExpressao getExpressao()
-    {
-        return this._expressao_;
-    }
-
-    public void setExpressao(PExpressao node)
-    {
-        if(this._expressao_ != null)
-        {
-            this._expressao_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._expressao_ = node;
+        ((Analysis) sw).caseAMultiplosListaMaisExp(this);
     }
 
     public PListaMaisExp getListaMaisExp()
@@ -90,27 +65,52 @@ public final class AListaExp extends PListaExp
         this._listaMaisExp_ = node;
     }
 
+    public PMaisExp getMaisExp()
+    {
+        return this._maisExp_;
+    }
+
+    public void setMaisExp(PMaisExp node)
+    {
+        if(this._maisExp_ != null)
+        {
+            this._maisExp_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._maisExp_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expressao_)
-            + toString(this._listaMaisExp_);
+            + toString(this._listaMaisExp_)
+            + toString(this._maisExp_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expressao_ == child)
-        {
-            this._expressao_ = null;
-            return;
-        }
-
         if(this._listaMaisExp_ == child)
         {
             this._listaMaisExp_ = null;
+            return;
+        }
+
+        if(this._maisExp_ == child)
+        {
+            this._maisExp_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AListaExp extends PListaExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expressao_ == oldChild)
-        {
-            setExpressao((PExpressao) newChild);
-            return;
-        }
-
         if(this._listaMaisExp_ == oldChild)
         {
             setListaMaisExp((PListaMaisExp) newChild);
+            return;
+        }
+
+        if(this._maisExp_ == oldChild)
+        {
+            setMaisExp((PMaisExp) newChild);
             return;
         }
 

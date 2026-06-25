@@ -5,39 +5,34 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAcessoSetaFator extends PFator
+public final class AComAcessoOptListaPrefixoAcesso extends POptListaPrefixoAcesso
 {
     private PListaPrefixoAcesso _listaPrefixoAcesso_;
-    private TId _id_;
 
-    public AAcessoSetaFator()
+    public AComAcessoOptListaPrefixoAcesso()
     {
         // Constructor
     }
 
-    public AAcessoSetaFator(
-        @SuppressWarnings("hiding") PListaPrefixoAcesso _listaPrefixoAcesso_,
-        @SuppressWarnings("hiding") TId _id_)
+    public AComAcessoOptListaPrefixoAcesso(
+        @SuppressWarnings("hiding") PListaPrefixoAcesso _listaPrefixoAcesso_)
     {
         // Constructor
         setListaPrefixoAcesso(_listaPrefixoAcesso_);
-
-        setId(_id_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AAcessoSetaFator(
-            cloneNode(this._listaPrefixoAcesso_),
-            cloneNode(this._id_));
+        return new AComAcessoOptListaPrefixoAcesso(
+            cloneNode(this._listaPrefixoAcesso_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAcessoSetaFator(this);
+        ((Analysis) sw).caseAComAcessoOptListaPrefixoAcesso(this);
     }
 
     public PListaPrefixoAcesso getListaPrefixoAcesso()
@@ -65,37 +60,11 @@ public final class AAcessoSetaFator extends PFator
         this._listaPrefixoAcesso_ = node;
     }
 
-    public TId getId()
-    {
-        return this._id_;
-    }
-
-    public void setId(TId node)
-    {
-        if(this._id_ != null)
-        {
-            this._id_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._id_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._listaPrefixoAcesso_)
-            + toString(this._id_);
+            + toString(this._listaPrefixoAcesso_);
     }
 
     @Override
@@ -105,12 +74,6 @@ public final class AAcessoSetaFator extends PFator
         if(this._listaPrefixoAcesso_ == child)
         {
             this._listaPrefixoAcesso_ = null;
-            return;
-        }
-
-        if(this._id_ == child)
-        {
-            this._id_ = null;
             return;
         }
 
@@ -124,12 +87,6 @@ public final class AAcessoSetaFator extends PFator
         if(this._listaPrefixoAcesso_ == oldChild)
         {
             setListaPrefixoAcesso((PListaPrefixoAcesso) newChild);
-            return;
-        }
-
-        if(this._id_ == oldChild)
-        {
-            setId((TId) newChild);
             return;
         }
 

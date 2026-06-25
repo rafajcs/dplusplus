@@ -5,39 +5,39 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAcessoSetaFator extends PFator
+public final class AMultiplosListaPrefixoAcesso extends PListaPrefixoAcesso
 {
     private PListaPrefixoAcesso _listaPrefixoAcesso_;
-    private TId _id_;
+    private PPrefixoAcesso _prefixoAcesso_;
 
-    public AAcessoSetaFator()
+    public AMultiplosListaPrefixoAcesso()
     {
         // Constructor
     }
 
-    public AAcessoSetaFator(
+    public AMultiplosListaPrefixoAcesso(
         @SuppressWarnings("hiding") PListaPrefixoAcesso _listaPrefixoAcesso_,
-        @SuppressWarnings("hiding") TId _id_)
+        @SuppressWarnings("hiding") PPrefixoAcesso _prefixoAcesso_)
     {
         // Constructor
         setListaPrefixoAcesso(_listaPrefixoAcesso_);
 
-        setId(_id_);
+        setPrefixoAcesso(_prefixoAcesso_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AAcessoSetaFator(
+        return new AMultiplosListaPrefixoAcesso(
             cloneNode(this._listaPrefixoAcesso_),
-            cloneNode(this._id_));
+            cloneNode(this._prefixoAcesso_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAcessoSetaFator(this);
+        ((Analysis) sw).caseAMultiplosListaPrefixoAcesso(this);
     }
 
     public PListaPrefixoAcesso getListaPrefixoAcesso()
@@ -65,16 +65,16 @@ public final class AAcessoSetaFator extends PFator
         this._listaPrefixoAcesso_ = node;
     }
 
-    public TId getId()
+    public PPrefixoAcesso getPrefixoAcesso()
     {
-        return this._id_;
+        return this._prefixoAcesso_;
     }
 
-    public void setId(TId node)
+    public void setPrefixoAcesso(PPrefixoAcesso node)
     {
-        if(this._id_ != null)
+        if(this._prefixoAcesso_ != null)
         {
-            this._id_.parent(null);
+            this._prefixoAcesso_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class AAcessoSetaFator extends PFator
             node.parent(this);
         }
 
-        this._id_ = node;
+        this._prefixoAcesso_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class AAcessoSetaFator extends PFator
     {
         return ""
             + toString(this._listaPrefixoAcesso_)
-            + toString(this._id_);
+            + toString(this._prefixoAcesso_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class AAcessoSetaFator extends PFator
             return;
         }
 
-        if(this._id_ == child)
+        if(this._prefixoAcesso_ == child)
         {
-            this._id_ = null;
+            this._prefixoAcesso_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class AAcessoSetaFator extends PFator
             return;
         }
 
-        if(this._id_ == oldChild)
+        if(this._prefixoAcesso_ == oldChild)
         {
-            setId((TId) newChild);
+            setPrefixoAcesso((PPrefixoAcesso) newChild);
             return;
         }
 

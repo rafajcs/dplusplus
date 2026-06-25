@@ -5,46 +5,46 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASimplesExpressao extends PExpressao
+public final class ASimplesExpressaoOu extends PExpressaoOu
 {
-    private PExpressaoOu _expressaoOu_;
+    private PExpressaoAnd _expressaoAnd_;
 
-    public ASimplesExpressao()
+    public ASimplesExpressaoOu()
     {
         // Constructor
     }
 
-    public ASimplesExpressao(
-        @SuppressWarnings("hiding") PExpressaoOu _expressaoOu_)
+    public ASimplesExpressaoOu(
+        @SuppressWarnings("hiding") PExpressaoAnd _expressaoAnd_)
     {
         // Constructor
-        setExpressaoOu(_expressaoOu_);
+        setExpressaoAnd(_expressaoAnd_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASimplesExpressao(
-            cloneNode(this._expressaoOu_));
+        return new ASimplesExpressaoOu(
+            cloneNode(this._expressaoAnd_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASimplesExpressao(this);
+        ((Analysis) sw).caseASimplesExpressaoOu(this);
     }
 
-    public PExpressaoOu getExpressaoOu()
+    public PExpressaoAnd getExpressaoAnd()
     {
-        return this._expressaoOu_;
+        return this._expressaoAnd_;
     }
 
-    public void setExpressaoOu(PExpressaoOu node)
+    public void setExpressaoAnd(PExpressaoAnd node)
     {
-        if(this._expressaoOu_ != null)
+        if(this._expressaoAnd_ != null)
         {
-            this._expressaoOu_.parent(null);
+            this._expressaoAnd_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ASimplesExpressao extends PExpressao
             node.parent(this);
         }
 
-        this._expressaoOu_ = node;
+        this._expressaoAnd_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expressaoOu_);
+            + toString(this._expressaoAnd_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expressaoOu_ == child)
+        if(this._expressaoAnd_ == child)
         {
-            this._expressaoOu_ = null;
+            this._expressaoAnd_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ASimplesExpressao extends PExpressao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expressaoOu_ == oldChild)
+        if(this._expressaoAnd_ == oldChild)
         {
-            setExpressaoOu((PExpressaoOu) newChild);
+            setExpressaoAnd((PExpressaoAnd) newChild);
             return;
         }
 

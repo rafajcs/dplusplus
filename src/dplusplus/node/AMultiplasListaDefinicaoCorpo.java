@@ -8,7 +8,7 @@ import dplusplus.analysis.*;
 public final class AMultiplasListaDefinicaoCorpo extends PListaDefinicaoCorpo
 {
     private PListaDefinicaoCorpo _listaDefinicaoCorpo_;
-    private PDefinicaoCorpo _definicaoCorpo_;
+    private PDeclaracaoClasse _declaracaoClasse_;
 
     public AMultiplasListaDefinicaoCorpo()
     {
@@ -17,12 +17,12 @@ public final class AMultiplasListaDefinicaoCorpo extends PListaDefinicaoCorpo
 
     public AMultiplasListaDefinicaoCorpo(
         @SuppressWarnings("hiding") PListaDefinicaoCorpo _listaDefinicaoCorpo_,
-        @SuppressWarnings("hiding") PDefinicaoCorpo _definicaoCorpo_)
+        @SuppressWarnings("hiding") PDeclaracaoClasse _declaracaoClasse_)
     {
         // Constructor
         setListaDefinicaoCorpo(_listaDefinicaoCorpo_);
 
-        setDefinicaoCorpo(_definicaoCorpo_);
+        setDeclaracaoClasse(_declaracaoClasse_);
 
     }
 
@@ -31,7 +31,7 @@ public final class AMultiplasListaDefinicaoCorpo extends PListaDefinicaoCorpo
     {
         return new AMultiplasListaDefinicaoCorpo(
             cloneNode(this._listaDefinicaoCorpo_),
-            cloneNode(this._definicaoCorpo_));
+            cloneNode(this._declaracaoClasse_));
     }
 
     @Override
@@ -65,16 +65,16 @@ public final class AMultiplasListaDefinicaoCorpo extends PListaDefinicaoCorpo
         this._listaDefinicaoCorpo_ = node;
     }
 
-    public PDefinicaoCorpo getDefinicaoCorpo()
+    public PDeclaracaoClasse getDeclaracaoClasse()
     {
-        return this._definicaoCorpo_;
+        return this._declaracaoClasse_;
     }
 
-    public void setDefinicaoCorpo(PDefinicaoCorpo node)
+    public void setDeclaracaoClasse(PDeclaracaoClasse node)
     {
-        if(this._definicaoCorpo_ != null)
+        if(this._declaracaoClasse_ != null)
         {
-            this._definicaoCorpo_.parent(null);
+            this._declaracaoClasse_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class AMultiplasListaDefinicaoCorpo extends PListaDefinicaoCorpo
             node.parent(this);
         }
 
-        this._definicaoCorpo_ = node;
+        this._declaracaoClasse_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class AMultiplasListaDefinicaoCorpo extends PListaDefinicaoCorpo
     {
         return ""
             + toString(this._listaDefinicaoCorpo_)
-            + toString(this._definicaoCorpo_);
+            + toString(this._declaracaoClasse_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class AMultiplasListaDefinicaoCorpo extends PListaDefinicaoCorpo
             return;
         }
 
-        if(this._definicaoCorpo_ == child)
+        if(this._declaracaoClasse_ == child)
         {
-            this._definicaoCorpo_ = null;
+            this._declaracaoClasse_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class AMultiplasListaDefinicaoCorpo extends PListaDefinicaoCorpo
             return;
         }
 
-        if(this._definicaoCorpo_ == oldChild)
+        if(this._declaracaoClasse_ == oldChild)
         {
-            setDefinicaoCorpo((PDefinicaoCorpo) newChild);
+            setDeclaracaoClasse((PDeclaracaoClasse) newChild);
             return;
         }
 

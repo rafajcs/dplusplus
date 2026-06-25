@@ -5,46 +5,46 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASimplesExpressao extends PExpressao
+public final class ABaseListaPrefixoAcesso extends PListaPrefixoAcesso
 {
-    private PExpressaoOu _expressaoOu_;
+    private PPrefixoAcesso _prefixoAcesso_;
 
-    public ASimplesExpressao()
+    public ABaseListaPrefixoAcesso()
     {
         // Constructor
     }
 
-    public ASimplesExpressao(
-        @SuppressWarnings("hiding") PExpressaoOu _expressaoOu_)
+    public ABaseListaPrefixoAcesso(
+        @SuppressWarnings("hiding") PPrefixoAcesso _prefixoAcesso_)
     {
         // Constructor
-        setExpressaoOu(_expressaoOu_);
+        setPrefixoAcesso(_prefixoAcesso_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASimplesExpressao(
-            cloneNode(this._expressaoOu_));
+        return new ABaseListaPrefixoAcesso(
+            cloneNode(this._prefixoAcesso_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASimplesExpressao(this);
+        ((Analysis) sw).caseABaseListaPrefixoAcesso(this);
     }
 
-    public PExpressaoOu getExpressaoOu()
+    public PPrefixoAcesso getPrefixoAcesso()
     {
-        return this._expressaoOu_;
+        return this._prefixoAcesso_;
     }
 
-    public void setExpressaoOu(PExpressaoOu node)
+    public void setPrefixoAcesso(PPrefixoAcesso node)
     {
-        if(this._expressaoOu_ != null)
+        if(this._prefixoAcesso_ != null)
         {
-            this._expressaoOu_.parent(null);
+            this._prefixoAcesso_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ASimplesExpressao extends PExpressao
             node.parent(this);
         }
 
-        this._expressaoOu_ = node;
+        this._prefixoAcesso_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expressaoOu_);
+            + toString(this._prefixoAcesso_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expressaoOu_ == child)
+        if(this._prefixoAcesso_ == child)
         {
-            this._expressaoOu_ = null;
+            this._prefixoAcesso_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ASimplesExpressao extends PExpressao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expressaoOu_ == oldChild)
+        if(this._prefixoAcesso_ == oldChild)
         {
-            setExpressaoOu((PExpressaoOu) newChild);
+            setPrefixoAcesso((PPrefixoAcesso) newChild);
             return;
         }
 

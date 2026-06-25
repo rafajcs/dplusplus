@@ -5,46 +5,46 @@ package dplusplus.node;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASimplesExpressao extends PExpressao
+public final class ABooleanoTipoPrimitivo extends PTipoPrimitivo
 {
-    private PExpressaoOu _expressaoOu_;
+    private TAnswer _answer_;
 
-    public ASimplesExpressao()
+    public ABooleanoTipoPrimitivo()
     {
         // Constructor
     }
 
-    public ASimplesExpressao(
-        @SuppressWarnings("hiding") PExpressaoOu _expressaoOu_)
+    public ABooleanoTipoPrimitivo(
+        @SuppressWarnings("hiding") TAnswer _answer_)
     {
         // Constructor
-        setExpressaoOu(_expressaoOu_);
+        setAnswer(_answer_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASimplesExpressao(
-            cloneNode(this._expressaoOu_));
+        return new ABooleanoTipoPrimitivo(
+            cloneNode(this._answer_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASimplesExpressao(this);
+        ((Analysis) sw).caseABooleanoTipoPrimitivo(this);
     }
 
-    public PExpressaoOu getExpressaoOu()
+    public TAnswer getAnswer()
     {
-        return this._expressaoOu_;
+        return this._answer_;
     }
 
-    public void setExpressaoOu(PExpressaoOu node)
+    public void setAnswer(TAnswer node)
     {
-        if(this._expressaoOu_ != null)
+        if(this._answer_ != null)
         {
-            this._expressaoOu_.parent(null);
+            this._answer_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ASimplesExpressao extends PExpressao
             node.parent(this);
         }
 
-        this._expressaoOu_ = node;
+        this._answer_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expressaoOu_);
+            + toString(this._answer_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expressaoOu_ == child)
+        if(this._answer_ == child)
         {
-            this._expressaoOu_ = null;
+            this._answer_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ASimplesExpressao extends PExpressao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expressaoOu_ == oldChild)
+        if(this._answer_ == oldChild)
         {
-            setExpressaoOu((PExpressaoOu) newChild);
+            setAnswer((TAnswer) newChild);
             return;
         }
 

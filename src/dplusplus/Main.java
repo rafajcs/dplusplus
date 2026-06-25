@@ -9,12 +9,17 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String arquivo = args.length > 0 ? args[0] : "teste/fatorial.dpp";
+		String arquivo = args.length > 0 ? args[0] : "teste/procedure.dpp";
+		
+		//arquivo = arquivo + "sucesso/A1_aritmetica.dpp";
 
 		try (PushbackReader reader = new PushbackReader(new FileReader(arquivo), 1024)) {
 
 			Lexer lexer = new Lexer(reader);
+			System.out.println("LEXER OK.");
 			Parser parser = new Parser(lexer);
+			
+			
 
 			Start arvore = parser.parse();
 
