@@ -69,8 +69,7 @@ Tokens
 	in		= 'in';
 	case 	= 'case';
 	that	= 'that';
-	as		= 'as';
-	long	= 'long';
+    as_long_as = 'as long as';
 	otherwise = 'otherwise';
 	if   = 'if';
 	else = 'else';
@@ -119,321 +118,321 @@ Ignored Tokens
 
 Productions
 
-programa =
-    opt_genealogia lista_definicao_corpo
-    {-> New programa(opt_genealogia.genealogia, lista_definicao_corpo.declaracao_classe)};
+	programa =
+		genealogia? lista_definicao_corpo
+		{-> New programa(genealogia.genealogia, [lista_definicao_corpo.declaracao_classe])};
 
-/* Cabeçalhos atualizados com a seta de tipo de retorno obrigatória do SableCC 3 */
+	/* substitui o operador de um ou mais */
+	lista_definicao_corpo {-> declaracao_classe*} =
+		{multiplas} lista_definicao_corpo declaracao_classe
+			{-> [lista_definicao_corpo.declaracao_classe, declaracao_classe.declaracao_classe]} |
+		{base} declaracao_classe
+			{-> [declaracao_classe.declaracao_classe]};
 
-opt_genealogia {-> genealogia} =
-    {com_genealogia} genealogia
-        {-> genealogia} |   
-    {sem_genealogia}
-        {-> null};
+	genealogia =
+		relacao lista_mais_relacao ponto
+		{-> New genealogia([relacao.relacao, lista_mais_relacao.relacao])};
 
-lista_definicao_corpo {-> declaracao_classe*} =
-    {multiplas} lista_definicao_corpo declaracao_classe
-        {-> [lista_definicao_corpo.declaracao_classe, declaracao_classe.declaracao_classe]} |
-    {base} declaracao_classe
-        {-> [declaracao_classe.declaracao_classe]};
+	/* substitui o operador zero ou mais */
+	lista_mais_relacao {-> relacao*} =
+		{multiplas} lista_mais_relacao mais_relacao
+			{-> [lista_mais_relacao.relacao, mais_relacao.relacao]} |
+		{base} {-> []}; /* vazio */
 
-genealogia =
-    lista_mais_relacao ponto
-    {-> New genealogia(lista_mais_relacao.relacao)};
+	mais_relacao {-> relacao} =
+		e_comercial relacao
+		{-> relacao.relacao};
 
-lista_mais_relacao {-> relacao*} =
-    {multiplas} lista_mais_relacao mais_relacao
-        {-> [lista_mais_relacao.relacao, mais_relacao.relacao]} |
-    {base} relacao
-        {-> [relacao.relacao]};
+	relacao =
+		family [filho]:id_classe derives from [pai]:id_classe
+		{-> New relacao(filho, pai)};
 
-mais_relacao {-> relacao} =
-    e_comercial relacao
-    {-> relacao.relacao};
+	declaracao_classe =
+		family id_classe start lista_componentes finish
+		{-> New declaracao_classe(id_classe, [lista_componentes.componentes])};
 
-relacao =
-    family [filho]:id_classe derives from [pai]:id_classe
-    {-> New relacao(filho, pai)};
+	/* Substitui o operador zero ou mais '*' usando recursão à esquerda */
+	lista_componentes {-> componentes*} =
+		{multiplos} lista_componentes componentes
+			{-> [lista_componentes.componentes, componentes.componentes]} |
+		{base} {-> []};
 
-declaracao_classe =
-    family id_classe start lista_componentes finish
-    {-> New declaracao_classe(id_classe, lista_componentes.componentes)};
+	componentes =
+		{var}    dec_var    {-> New componentes.var(dec_var.dec_var)} |
+		{cons}   dec_cons   {-> New componentes.cons(dec_cons.dec_cons)} |
+		{obj}    dec_obj    {-> New componentes.obj(dec_obj.dec_obj)} |
+		{metodo} metodo     {-> New componentes.metodo(metodo.metodo)};
 
-lista_componentes {-> componentes*} =
-    {multiplos} lista_componentes componentes
-        {-> [lista_componentes.componentes, componentes.componentes]} |
-    {base}
-        {-> []};
+	/* Restrição de Tipos: Variáveis e Constantes exigem primitivos. Objetos exigem ID de Classe */
+	dec_var  = alterable tipo_primitivo id atribuicao expressao ponto
+		{-> New dec_var(tipo_primitivo.tipo_primitivo, id, expressao.expressao)};
+	dec_cons = unalterable tipo_primitivo id atribuicao expressao ponto
+		{-> New dec_cons(tipo_primitivo.tipo_primitivo, id, expressao.expressao)};
+	dec_obj  = object id_classe id ponto
+		{-> New dec_obj(id_classe, id)};
 
-componentes =
-    {var}    dec_var    {-> New componentes.var(dec_var.dec_var)} |
-    {cons}   dec_cons   {-> New componentes.cons(dec_cons.dec_cons)} |
-    {obj}    dec_obj    {-> New componentes.obj(dec_obj.dec_obj)} |
-    {metodo} metodo     {-> New componentes.metodo(metodo.metodo)};
+	tipo_primitivo {-> tipo_primitivo} =
+		{inteiro}  number {-> New tipo_primitivo.inteiro()} |
+		{booleano} answer {-> New tipo_primitivo.booleano()};
 
-dec_var  = alterable tipo_primitivo id atribuicao expressao ponto
-    {-> New dec_var(tipo_primitivo.tipo_primitivo, id, expressao.expressao)};
+	tipo {-> tipo} =
+		{primitivo} tipo_primitivo {-> New tipo.primitivo(tipo_primitivo.tipo_primitivo)} |
+		{classe}    id_classe      {-> New tipo.classe(id_classe)};
 
-dec_cons = unalterable tipo_primitivo id atribuicao expressao ponto
-    {-> New dec_cons(tipo_primitivo.tipo_primitivo, id, expressao.expressao)};
+	metodo =
+		{funcao_concreta}    function tipo id colc_esq opt_parametros colc_dir bloco_exp
+			{-> New metodo.funcao_concreta(tipo.tipo, id, [opt_parametros.parametro], bloco_exp.bloco_exp)} |
+		{funcao_abstrata}    function tipo id colc_esq opt_parametros colc_dir ponto
+			{-> New metodo.funcao_abstrata(tipo.tipo, id, [opt_parametros.parametro])} |
+		{procedimento_concr} procedure marcador_entrada? id colc_esq opt_parametros colc_dir bloco_comandos
+			{-> New metodo.procedimento_concr(marcador_entrada, id, [opt_parametros.parametro], bloco_comandos.bloco_comandos)} |
+		{procedimento_abst}  procedure marcador_entrada? id colc_esq opt_parametros colc_dir ponto
+			{-> New metodo.procedimento_abst(marcador_entrada, id, [opt_parametros.parametro])};
 
-dec_obj  = object id_classe id ponto
-    {-> New dec_obj(id_classe, id)};
+	opt_parametros {-> parametro*} =
+		{com_parametros} parametros {-> [parametros.parametro]} |
+		{sem_parametros}            {-> []}; /* vazio */
 
-tipo_primitivo {-> tipo_primitivo} =
-    {inteiro}  number  {-> New tipo_primitivo.inteiro()} |
-    {booleano} answer  {-> New tipo_primitivo.booleano()};
+	parametros {-> parametro*} =
+		parametro lista_mais_parametros
+		{-> [parametro.parametro, lista_mais_parametros.parametro]};
 
-tipo {-> tipo} =
-    {primitivo} tipo_primitivo {-> New tipo.primitivo(tipo_primitivo.tipo_primitivo)} |
-    {classe}    id_classe      {-> New tipo.classe(id_classe)};
+	/* Substitui o operador zero ou mais '*' usando recursão à esquerda */
+	lista_mais_parametros {-> parametro*} =
+		{multiplos} lista_mais_parametros mais_parametros
+			{-> [lista_mais_parametros.parametro, mais_parametros.parametro]} |
+		{base} {-> []}; /* vazio */
 
-metodo =
-    {funcao_concreta}    function tipo id colc_esq opt_parametros colc_dir bloco_exp
-        {-> New metodo.funcao_concreta(tipo.tipo, id, opt_parametros.parametro, bloco_exp.bloco_exp)} |
-    {funcao_abstrata}    function tipo id colc_esq opt_parametros colc_dir ponto
-        {-> New metodo.funcao_abstrata(tipo.tipo, id, opt_parametros.parametro)} |
-    {procedimento_concr} procedure opt_marcador_entrada id colc_esq opt_parametros colc_dir bloco_comandos
-        {-> New metodo.procedimento_concr(opt_marcador_entrada.marcador_entrada, id, opt_parametros.parametro, bloco_comandos.bloco_comandos)} |
-    {procedimento_abst}  procedure opt_marcador_entrada id colc_esq opt_parametros colc_dir ponto
-        {-> New metodo.procedimento_abst(opt_marcador_entrada.marcador_entrada, id, opt_parametros.parametro)};
+	mais_parametros {-> parametro} =
+		pipe parametro
+		{-> parametro.parametro};
 
-opt_marcador_entrada {-> marcador_entrada} =
-    {com_marcador} marcador_entrada {-> marcador_entrada} |
-    {sem_marcador}                  {-> null};
+	parametro =
+		tipo id {-> New parametro(tipo.tipo, id)};
 
-opt_parametros {-> parametro*} =
-    {com_parametros} lista_parametros {-> lista_parametros.parametro} |
-    {sem_parametros}                  {-> []};
 
-lista_parametros {-> parametro*} =
-    {multiplos} lista_parametros mais_parametros
-        {-> [lista_parametros.parametro, mais_parametros.parametro]} |
-    {base} parametro
-        {-> [parametro.parametro]};
+	/* Blocos Estruturados: bloco_exp isola declarações locais e impede ambiguidades */
+	bloco_comandos =
+		start lista_comando finish
+		{-> New bloco_comandos([lista_comando.comando])};
 
-mais_parametros {-> parametro} =
-    pipe parametro {-> parametro.parametro};
+	bloco_exp =
+		start lista_dec_local lista_comando expressao finish
+		{-> New bloco_exp([lista_dec_local.dec_local], [lista_comando.comando], expressao.expressao)};
 
-parametro =
-    tipo id {-> New parametro(tipo.tipo, id)};
+	lista_dec_local {-> dec_local*} =
+		{multiplos} lista_dec_local dec_local
+			{-> [lista_dec_local.dec_local, dec_local.dec_local]} |
+		{base} {-> []};
 
-bloco_comandos =
-    start lista_dec_local lista_comando finish
-    {-> New bloco_comandos(lista_dec_local.dec_local, lista_comando.comando)};
+	dec_local =
+		{var}  dec_var  {-> New dec_local.var(dec_var.dec_var)} |
+		{cons} dec_cons {-> New dec_local.cons(dec_cons.dec_cons)} |
+		{obj}  dec_obj  {-> New dec_local.obj(dec_obj.dec_obj)};
 
-bloco_exp =
-    start lista_dec_local lista_comando expressao finish
-    {-> New bloco_exp(lista_dec_local.dec_local, lista_comando.comando, expressao.expressao)};
 
-lista_dec_local {-> dec_local*} =
-    {multiplos} lista_dec_local dec_local
-        {-> [lista_dec_local.dec_local, dec_local.dec_local]} |
-    {base}
-        {-> []};
+	lista_comando {-> comando*} =
+		{multiplos} lista_comando comando
+			{-> [lista_comando.comando, comando.comando]} |
+		{base} {-> []};
 
-dec_local =
-    {var}  dec_var  {-> New dec_local.var(dec_var.dec_var)} |
-    {cons} dec_cons {-> New dec_local.cons(dec_cons.dec_cons)} |
-    {obj}  dec_obj  {-> New dec_local.obj(dec_obj.dec_obj)};
-
-lista_comando {-> comando*} =
-    {multiplos} lista_comando comando
-        {-> [lista_comando.comando, comando.comando]} |
-    {base}
-        {-> []};
-
-comando =
-    {atribuicao} id atribuicao expressao ponto
-        {-> New comando.atribuicao(id, expressao.expressao)} |
-    {chamada_cmd} opt_lista_prefixo_acesso id colc_esq opt_lista_exp colc_dir ponto
-        {-> New comando.chamada_cmd(opt_lista_prefixo_acesso.id, id, opt_lista_exp.expressao)} |
-    {condicional} in case that par_esq expressao par_dir bloco_comandos opt_cmd_otherwise
-        {-> New comando.condicional(expressao.expressao, bloco_comandos.bloco_comandos, opt_cmd_otherwise.bloco_comandos)} |
-    {laco} as long par_esq expressao par_dir bloco_comandos
-        {-> New comando.laco(expressao.expressao, bloco_comandos.bloco_comandos)} |
-    {bloco} bloco_comandos
-        {-> New comando.bloco(bloco_comandos.bloco_comandos)};
-
-opt_cmd_otherwise {-> bloco_comandos} =
-    {com_otherwise} otherwise bloco_comandos {-> bloco_comandos.bloco_comandos} |
-    {sem_otherwise}                           {-> null};
-
-opt_expressao {-> expressao} =
-    {com_expressao} expressao {-> expressao.expressao} |
-    {sem_expressao}           {-> null};
-
-expressao =
-    {ternario_expr} if par_esq [cond]:expressao par_dir [v_true]:expressao_ou else [v_false]:expressao
-        {-> New expressao.ternario(cond.expressao, v_true.expressao, v_false.expressao)} |
-    {simples} expressao_ou
-        {-> expressao_ou.expressao};
-
-expressao_ou {-> expressao} =
-    {ou}     expressao_ou or expressao_and
-        {-> New expressao.ou(expressao_ou.expressao, expressao_and.expressao)} |
-    {simples} expressao_and
-        {-> expressao_and.expressao};
-
-expressao_and {-> expressao} =
-    {e}      expressao_and and expressao_relacional
-        {-> New expressao.e(expressao_and.expressao, expressao_relacional.expressao)} |
-    {simples} expressao_relacional
-        {-> expressao_relacional.expressao};
-
-expressao_relacional {-> expressao} =
-    {menor}  [esq]:expressao_aritmetica menor [dir]:expressao_aritmetica
-        {-> New expressao.menor(esq.expressao, dir.expressao)} |
-    {maior}  [esq]:expressao_aritmetica maior [dir]:expressao_aritmetica
-        {-> New expressao.maior(esq.expressao, dir.expressao)} |
-    {igual}  [esq]:expressao_aritmetica igual [dir]:expressao_aritmetica
-        {-> New expressao.igual(esq.expressao, dir.expressao)} |
-    {simples} expressao_aritmetica
-        {-> expressao_aritmetica.expressao};
-
-expressao_aritmetica {-> expressao} =
-    {soma}      expressao_aritmetica soma termo
-        {-> New expressao.soma(expressao_aritmetica.expressao, termo.expressao)} |
-    {subtracao} expressao_aritmetica menos termo
-        {-> New expressao.subtracao(expressao_aritmetica.expressao, termo.expressao)} |
-    {simples}   termo
-        {-> termo.expressao};
-
-termo {-> expressao} =
-    {multiplicacao} termo mult fator
-        {-> New expressao.mult(termo.expressao, fator.expressao)} |
-    {divisao}       termo div fator
-        {-> New expressao.div(termo.expressao, fator.expressao)} |
-    {simples}       fator
-        {-> fator.expressao};
-
-fator {-> expressao} =
-    {id}           id
-        {-> New expressao.id(id)} |
-    {inteiro}      valor_inteiro
-        {-> New expressao.inteiro(valor_inteiro)} |
-    {real}         valor_real
-        {-> New expressao.real(valor_real)} |
-    {booleano_v}   yes
-        {-> New expressao.verdadeiro()} |
-    {booleano_f}   no
-        {-> New expressao.falso()} |
-    {negacao}      nao fator
-        {-> New expressao.negacao(fator.expressao)} |
-    {menos_unario} menos fator
-        {-> New expressao.menos_unario(fator.expressao)} |
-    {acesso_seta}  lista_prefixo_acesso id
-        {-> New expressao.acesso(lista_prefixo_acesso.id, id)} |
-    {chamada_expr} opt_lista_prefixo_acesso id colc_esq opt_lista_exp colc_dir
-        {-> New expressao.chamada(opt_lista_prefixo_acesso.id, id, opt_lista_exp.expressao)} |
-    {parenteses}   par_esq expressao par_dir
-        {-> expressao.expressao};
-
-lista_prefixo_acesso {-> id*} =
-    {multiplos} lista_prefixo_acesso prefixo_acesso
-        {-> [lista_prefixo_acesso.id, prefixo_acesso.id]} |
-    {base} prefixo_acesso
-        {-> [prefixo_acesso.id]};
-
-opt_lista_prefixo_acesso {-> id*} =
-    {com_acesso} lista_prefixo_acesso {-> lista_prefixo_acesso.id} |
-    {sem_acesso}                      {-> []};
-
-prefixo_acesso {-> id} =
-    id seta {-> id};
-
-opt_lista_exp {-> expressao*} =
-    {com_exp} lista_exp {-> lista_exp.expressao} |
-    {sem_exp}           {-> []};
-
-lista_exp {-> expressao*} =
-    {multiplos} lista_exp mais_exp
-        {-> [lista_exp.expressao, mais_exp.expressao]} |
-    {base} expressao
-        {-> [expressao.expressao]};
-
-lista_mais_exp {-> expressao*} =
-    {multiplos} lista_mais_exp mais_exp
-        {-> [lista_mais_exp.expressao, mais_exp.expressao]} |
-    {base}
-        {-> []};
-
-mais_exp {-> expressao} =
-    pipe expressao {-> expressao.expressao};
-	    
-	    
-Abstract Syntax Tree
-
-    programa =
-        genealogia? declaracao_classe+;
-
-    genealogia =
-        relacao+;
-
-    relacao =
-        [filho]:id_classe [pai]:id_classe;
-
-    declaracao_classe =
-        id_classe componentes*;
-
-    componentes =
-        {var}    dec_var |
-        {cons}   dec_cons |
-        {obj}    dec_obj |
-        {metodo} metodo;
-
-    dec_var  = tipo_primitivo id expressao;
-    dec_cons = tipo_primitivo id expressao;
-    dec_obj  = id_classe id;
-
-    tipo_primitivo =
-        {inteiro} |
-        {booleano};
-
-    tipo =
-        {primitivo} tipo_primitivo |
-        {classe}    id_classe;
-
-    metodo =
-        {funcao_concreta}    tipo id parametro* bloco_exp |
-        {funcao_abstrata}    tipo id parametro* |
-        {procedimento_concr} [marcador]:marcador_entrada? id parametro* bloco_comandos |
-        {procedimento_abst}  [marcador]:marcador_entrada? id parametro*;
-
-    parametro = tipo id;
-
-    bloco_comandos = dec_local* comando*;
-    bloco_exp      = dec_local* comando* expressao;
-
-    dec_local =
-        {var}  dec_var |
-        {cons} dec_cons |
-        {obj}  dec_obj;
+    opt_otherwise {-> bloco_comandos?} =
+        {com_otherwise} otherwise bloco_comandos {-> bloco_comandos} |
+        {sem_otherwise}                          {-> Null};
 
     comando =
-        {atribuicao}  id expressao |
-        {chamada_cmd} [prefixos]:id* [metodo]:id expressao* |
-        {condicional} expressao bloco_comandos [opt_comando]:bloco_comandos? |
-        {laco}        expressao bloco_comandos |
-        {bloco}       bloco_comandos;
+        {atribuicao}    id atribuicao expressao ponto
+            {-> New comando.atribuicao(id, expressao.expressao)} |
 
-    expressao =
-        {ternario}    [cond]:expressao [v_true]:expressao [v_false]:expressao |
-        {ou}          [esq]:expressao [dir]:expressao |
-        {e}           [esq]:expressao [dir]:expressao |
-        {menor}       [esq]:expressao [dir]:expressao |
-        {maior}       [esq]:expressao [dir]:expressao |
-        {igual}       [esq]:expressao [dir]:expressao |
-        {soma}        [esq]:expressao [dir]:expressao |
-        {subtracao}   [esq]:expressao [dir]:expressao |
-        {mult}        [esq]:expressao [dir]:expressao |
-        {div}         [esq]:expressao [dir]:expressao |
-        {negacao}     expressao |
-        {menos_unario} expressao |
-        {acesso}      [prefixos]:id+ [atributo]:id |
-        {chamada}     [prefixos]:id* [metodo]:id expressao* |
-        {id}          id |
-        {inteiro}     valor_inteiro |
-        {real}        valor_real |
-        {verdadeiro}  |
-        {falso}       ;
+        {chamada_cmd}   opt_lista_prefixo_acesso id colc_esq opt_lista_exp colc_dir ponto
+            {-> New comando.chamada_cmd([opt_lista_prefixo_acesso.id], id, [opt_lista_exp.expressao])} |
+        
+        {condicional}   in case that par_esq expressao par_dir bloco_comandos opt_otherwise
+            {-> New comando.condicional(expressao.expressao, bloco_comandos.bloco_comandos, opt_otherwise.bloco_comandos)} |
+        
+        {laco}          as_long_as par_esq expressao par_dir bloco_comandos
+            {-> New comando.laco(expressao.expressao, bloco_comandos.bloco_comandos)} |
+        {bloco}         bloco_comandos
+            {-> New comando.bloco(bloco_comandos.bloco_comandos)};
+
+	/* ============================================================
+	   REGRAS DE EXPRESSÕES (Hierarquia de Precedência Corrigida)
+	   ============================================================ */
+
+	/* O Ternário agora é a base da hierarquia (menor precedência).
+	   v_true usa 'expressao_ou' para evitar que o 'else' cause ambiguidade.
+	   v_false usa 'expressao' permitindo ternários aninhados à direita (if else if else). */
+
+	expressao =
+		{ternario_expr} if par_esq [cond]:expressao par_dir [v_true]:expressao_ou else [v_false]:expressao
+			{-> New expressao.ternario(cond.expressao, v_true.expressao, v_false.expressao)} |
+		{simples} expressao_ou
+			{-> expressao_ou.expressao};
+
+	expressao_ou {-> expressao} =
+		{ou} expressao_ou or expressao_and
+			{-> New expressao.ou(expressao_ou.expressao, expressao_and.expressao)} |
+		{simples} expressao_and
+			{-> expressao_and.expressao};
+
+	expressao_and {-> expressao} =
+		{e} expressao_and and expressao_relacional
+			{-> New expressao.e(expressao_and.expressao, expressao_relacional.expressao)} |
+		{simples} expressao_relacional
+			{-> expressao_relacional.expressao};
+
+	expressao_relacional {-> expressao} =
+		{menor} [esq]:expressao_aritmetica menor [dir]:expressao_aritmetica
+			{-> New expressao.menor(esq.expressao, dir.expressao)} |
+		{maior} [esq]:expressao_aritmetica maior [dir]:expressao_aritmetica
+			{-> New expressao.maior(esq.expressao, dir.expressao)} |
+		{igual} [esq]:expressao_aritmetica igual [dir]:expressao_aritmetica
+			{-> New expressao.igual(esq.expressao, dir.expressao)} |
+		{simples} expressao_aritmetica
+			{-> expressao_aritmetica.expressao};
+
+	expressao_aritmetica {-> expressao} =
+		{soma} expressao_aritmetica soma termo
+			{-> New expressao.soma(expressao_aritmetica.expressao, termo.expressao)} |
+		{subtracao} expressao_aritmetica menos termo
+			{-> New expressao.subtracao(expressao_aritmetica.expressao, termo.expressao)} |
+		{simples} termo
+			{-> termo.expressao};
+
+	termo {-> expressao} =
+		{multiplicacao} termo mult fator
+			{-> New expressao.mult(termo.expressao, fator.expressao)} |
+		{divisao} termo div fator
+			{-> New expressao.div(termo.expressao, fator.expressao)} |
+		{simples} fator
+			{-> fator.expressao};
+
+	/* Fator limpo e sem o nó causador de conflitos */
+	fator {-> expressao} =
+        {id}            id
+			{-> New expressao.id(id)} |
+        {inteiro}       valor_inteiro
+			{-> New expressao.inteiro(valor_inteiro)} |
+        {real}          valor_real
+			{-> New expressao.real(valor_real)} |
+        {booleano_v}    yes
+			{-> New expressao.verdadeiro()} |
+        {booleano_f}    no
+			{-> New expressao.falso()} |
+        {negacao}       nao fator
+			{-> New expressao.negacao(fator.expressao)} |
+        {menos_unario}  menos fator
+			{-> New expressao.menos_unario(fator.expressao)} |
+        {acesso_seta}   lista_prefixo_acesso id
+			{-> New expressao.acesso([lista_prefixo_acesso.id], id)} |
+        {chamada_expr}  opt_lista_prefixo_acesso id colc_esq opt_lista_exp colc_dir
+			{-> New expressao.chamada([opt_lista_prefixo_acesso.id], id, [opt_lista_exp.expressao])} |
+        {parenteses}    par_esq expressao par_dir
+			{-> expressao.expressao};
+
+
+    lista_prefixo_acesso {-> id*} =
+        {multiplos} lista_prefixo_acesso prefixo_acesso
+			{-> [lista_prefixo_acesso.id, prefixo_acesso.id]} |
+        {base} prefixo_acesso
+			{-> [prefixo_acesso.id]};
+
+	opt_lista_prefixo_acesso {-> id*} =
+        {com_acesso} lista_prefixo_acesso {-> [lista_prefixo_acesso.id]} |
+        {sem_acesso}                      {-> []};
+
+    prefixo_acesso {-> id} =
+        id seta {-> id};
+
+    opt_lista_exp {-> expressao*} =
+        {com_exp} lista_exp {-> [lista_exp.expressao]} |
+        {sem_exp}           {-> []}; /* vazio */
+
+    lista_exp {-> expressao*} =
+        expressao lista_mais_exp
+        {-> [expressao.expressao, lista_mais_exp.expressao]};
+
+    lista_mais_exp {-> expressao*} =
+        {multiplos} lista_mais_exp mais_exp
+			{-> [lista_mais_exp.expressao, mais_exp.expressao]} |
+        {base} {-> []}; /* vazio */
+
+    mais_exp {-> expressao} =
+        pipe expressao {-> expressao.expressao};
+
+
+Abstract Syntax Tree
+
+	programa =
+		genealogia? declaracao_classe+;
+
+	genealogia =
+		relacao+;
+
+	relacao =
+		[filho]:id_classe [pai]:id_classe;
+
+	declaracao_classe =
+		id_classe componentes*;
+
+	componentes =
+		{var}    dec_var |
+		{cons}   dec_cons |
+		{obj}    dec_obj |
+		{metodo} metodo;
+
+	dec_var  = tipo_primitivo id expressao;
+	dec_cons = tipo_primitivo id expressao;
+	dec_obj  = id_classe id;
+
+	tipo_primitivo =
+		{inteiro} |
+		{booleano};
+
+	tipo =
+		{primitivo} tipo_primitivo |
+		{classe}    id_classe;
+
+	metodo =
+		{funcao_concreta}    tipo id parametro* bloco_exp |
+		{funcao_abstrata}    tipo id parametro* |
+		{procedimento_concr} [marcador]:marcador_entrada? id parametro* bloco_comandos |
+		{procedimento_abst}  [marcador]:marcador_entrada? id parametro*;
+
+	parametro = tipo id;
+
+	bloco_comandos = comando*;
+	bloco_exp      = dec_local* comando* expressao;
+
+	dec_local =
+		{var}  dec_var |
+		{cons} dec_cons |
+		{obj}  dec_obj;
+
+	comando =
+		{atribuicao}  id expressao |
+		{chamada_cmd} [prefixos]:id* [metodo]:id expressao* |
+		{condicional} expressao bloco_comandos [opt_comando]:bloco_comandos? |
+		{laco}        expressao bloco_comandos |
+		{bloco}       bloco_comandos;
+
+	expressao =
+		{ternario}    [cond]:expressao [v_true]:expressao [v_false]:expressao |
+		{ou}          [esq]:expressao [dir]:expressao |
+		{e}           [esq]:expressao [dir]:expressao |
+		{menor}       [esq]:expressao [dir]:expressao |
+		{maior}       [esq]:expressao [dir]:expressao |
+		{igual}       [esq]:expressao [dir]:expressao |
+		{soma}        [esq]:expressao [dir]:expressao |
+		{subtracao}   [esq]:expressao [dir]:expressao |
+		{mult}        [esq]:expressao [dir]:expressao |
+		{div}         [esq]:expressao [dir]:expressao |
+		{negacao}     expressao |
+		{menos_unario} expressao |
+		{acesso}      [prefixos]:id+ [atributo]:id |
+		{chamada}     [prefixos]:id* [metodo]:id expressao* |
+		{id}          id |
+		{inteiro}     valor_inteiro |
+		{real}        valor_real |
+		{verdadeiro}  |
+		{falso}       ;

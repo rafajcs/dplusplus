@@ -16,10 +16,9 @@ family Operacoesmat start
 			    n << n - 1.
 			finish
         
-            resultado
         finish
 
-        otherwise resultado
+        resultado
     finish
 
 finish
