@@ -560,6 +560,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     {
         inABlocoComandos(node);
         {
+            List<PDecLocal> copy = new ArrayList<PDecLocal>(node.getDecLocal());
+            for(PDecLocal e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        {
             List<PComando> copy = new ArrayList<PComando>(node.getComando());
             for(PComando e : copy)
             {

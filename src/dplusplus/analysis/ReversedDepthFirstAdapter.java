@@ -574,6 +574,14 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
                 e.apply(this);
             }
         }
+        {
+            List<PDecLocal> copy = new ArrayList<PDecLocal>(node.getDecLocal());
+            Collections.reverse(copy);
+            for(PDecLocal e : copy)
+            {
+                e.apply(this);
+            }
+        }
         outABlocoComandos(node);
     }
 

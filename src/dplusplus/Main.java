@@ -6,35 +6,50 @@ import dplusplus.parser.*;
 import java.io.*;
 
 public class Main {
+    public static void main(String[] args) {
+        if (args.length < 1) {
+            System.out.println("Uso: java src.dplusplus.Main fatorial.dpp");
+            //return;
+        }
 
-	public static void main(String[] args) {
+        //String filePath = args[0];
+        String filePath = "teste/fatorial.dpp";
 
-		String arquivo = args.length > 0 ? args[0] : "teste/procedure.dpp";
-		
-		//arquivo = arquivo + "sucesso/A1_aritmetica.dpp";
+        try (FileReader fileReader = new FileReader(filePath);
+             PushbackReader pushbackReader = new PushbackReader(fileReader, 1024)) {
 
-		try (PushbackReader reader = new PushbackReader(new FileReader(arquivo), 1024)) {
+            System.out.println("A abrir e a processar o ficheiro: " + filePath);
 
-			Lexer lexer = new Lexer(reader);
-			System.out.println("LEXER OK.");
-			Parser parser = new Parser(lexer);
-			
-			
+            // 1. Inicializa a Análise Léxica
+            Lexer lexer = new Lexer(pushbackReader);
 
-			Start arvore = parser.parse();
+            // 2. Inicializa a Análise Sintática
+            Parser parser = new Parser(lexer);
 
-			System.out.println("Analise sintatica concluida com sucesso.");
-			System.out.println("Arvore sintatica:");
-			arvore.apply(new ASTPrinter());
+            // 3. Executa o parser (Retorna a raiz da AST devido às transformações {->})
+            Start astRoot = parser.parse();
+            System.out.println("[SINTÁTICA OK] Ficheiro sintaticamente válido.");
 
-		} catch (ParserException e) {
-			System.err.println("ERRO SINTATICO: " + e.getMessage());
-		} catch (LexerException e) {
-			System.err.println("ERRO LEXICO: " + e.getMessage());
-		} catch (FileNotFoundException e) {
-			System.err.println("Arquivo nao encontrado: " + arquivo);
-		} catch (IOException e) {
-			System.err.println("Erro de IO: " + e.getMessage());
-		}
-	}
+            // 4. Inicializa o Analisador Semântico
+            SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
+
+            // 5. Dispara o Visitor caminhando sobre os nós abstratos
+            astRoot.apply(semanticAnalyzer);
+
+            // 6. Avaliação dos resultados semânticos
+            if (semanticAnalyzer.hasErrors()) {
+                System.err.println("\n[SEMÂNTICA FALHOU] Foram detetados erros semânticos:");
+                semanticAnalyzer.printErrors();
+            } else {
+                System.out.println("\n[SEMÂNTICA OK] Programa validado com sucesso! Pronto para geração de código.");
+            }
+
+        } catch (LexerException e) {
+            System.err.println("[ERRO LÉXICO] Caractere inválido ou token mal formado: " + e.getMessage());
+        } catch (ParserException e) {
+            System.err.println("[ERRO SINTÁTICO] Quebra de regra de produção na linguagem: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("[ERRO DE LEITURA] Falha ao aceder ao ficheiro de teste: " + e.getMessage());
+        }
+    }
 }
