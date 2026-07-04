@@ -1,4 +1,4 @@
-{- 
+{-
    Código 3: Foco em OO, Herança, Métodos Abstratos e Tipagem Recursiva
 -}
 
@@ -13,9 +13,10 @@ finish
 -- 3. Classe Filha (Concreta)
 family Filha start
     alterable number meuNumero << 10 .
-    
+
     procedure exibirDados [ ] start
-        Periphericals.show[meuNumero] .
+        object Periphericals io .
+        io->show[meuNumero] .
     finish
 finish
 
@@ -23,9 +24,9 @@ finish
 family No start
     object No proximo .
     alterable number valor << 0 .
-    
+
     function number getValor [ ] start
-        return valor .
+        valor
     finish
 finish
 
@@ -33,7 +34,7 @@ finish
 family Principal start
     >> procedure iniciar [ ] start
         object Filha objFilha .
-        objFilha.exibirDados[]() .
+        objFilha->exibirDados[] .
     finish
 finish
 
