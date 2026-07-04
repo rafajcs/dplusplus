@@ -8,6 +8,7 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class ABlocoComandos extends PBlocoComandos
 {
+    private final LinkedList<PDecLocal> _decLocal_ = new LinkedList<PDecLocal>();
     private final LinkedList<PComando> _comando_ = new LinkedList<PComando>();
 
     public ABlocoComandos()
@@ -16,9 +17,12 @@ public final class ABlocoComandos extends PBlocoComandos
     }
 
     public ABlocoComandos(
+        @SuppressWarnings("hiding") List<?> _decLocal_,
         @SuppressWarnings("hiding") List<?> _comando_)
     {
         // Constructor
+        setDecLocal(_decLocal_);
+
         setComando(_comando_);
 
     }
@@ -27,6 +31,7 @@ public final class ABlocoComandos extends PBlocoComandos
     public Object clone()
     {
         return new ABlocoComandos(
+            cloneList(this._decLocal_),
             cloneList(this._comando_));
     }
 
@@ -34,6 +39,32 @@ public final class ABlocoComandos extends PBlocoComandos
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseABlocoComandos(this);
+    }
+
+    public LinkedList<PDecLocal> getDecLocal()
+    {
+        return this._decLocal_;
+    }
+
+    public void setDecLocal(List<?> list)
+    {
+        for(PDecLocal e : this._decLocal_)
+        {
+            e.parent(null);
+        }
+        this._decLocal_.clear();
+
+        for(Object obj_e : list)
+        {
+            PDecLocal e = (PDecLocal) obj_e;
+            if(e.parent() != null)
+            {
+                e.parent().removeChild(e);
+            }
+
+            e.parent(this);
+            this._decLocal_.add(e);
+        }
     }
 
     public LinkedList<PComando> getComando()
@@ -66,6 +97,7 @@ public final class ABlocoComandos extends PBlocoComandos
     public String toString()
     {
         return ""
+            + toString(this._decLocal_)
             + toString(this._comando_);
     }
 
@@ -73,6 +105,11 @@ public final class ABlocoComandos extends PBlocoComandos
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._decLocal_.remove(child))
+        {
+            return;
+        }
+
         if(this._comando_.remove(child))
         {
             return;
@@ -85,6 +122,24 @@ public final class ABlocoComandos extends PBlocoComandos
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
+        for(ListIterator<PDecLocal> i = this._decLocal_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PDecLocal) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
+        }
+
         for(ListIterator<PComando> i = this._comando_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
