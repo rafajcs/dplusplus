@@ -20,7 +20,7 @@ family No start
         valor << v.
     finish
 
-    function number getValor[] valor.
+    function number getValor[] start valor finish
 
     procedure setProximo[No n] start
         proximo << n.
@@ -38,14 +38,14 @@ family Lista start
 
         object No novo.
 
-        novo.setValor[v].
-        novo.setProximo[cabeca].
+        novo->setValor[v].
+        novo->setProximo[cabeca].
         cabeca << novo.
         tamanho << tamanho + 1.
 
     finish
 
-    function number getTamanho[] tamanho.
+    function number getTamanho[] start tamanho finish
 
 finish
 
@@ -60,39 +60,37 @@ family Programa start
         alterable number b << 10.
         alterable number resultado << 0.
 
-        l.inserir[1].
-        l.inserir[2].
-        l.inserir[3].
+        l->inserir[1].
+        l->inserir[2].
+        l->inserir[3].
 
         -- Expressoes matematicas: +, -, *, /
         resultado << (a + b) * 2 - b / 5.
 
-        io.show[resultado].
+        io->show[resultado].
 
         -- Operador > e in case that sem otherwise
         in case that (resultado > 0) start
-            io.show[resultado].
+            io->show[resultado].
         finish
 
         -- Operador or e in case that com otherwise
         in case that ((a > b) or (resultado = 0)) start
-            io.show[a].
+            io->show[a].
         finish otherwise start
-            io.show[- resultado].
+            io->show[- resultado].
         finish
 
         -- as long as
         as long as (a < b) start
             a << a + 1.
-            io.show[a].
+            io->show[a].
         finish
 
-        -- bloco_exp com operador ternario (if/else)
-        resultado << start
-            if (a < b) resultado << a + b. else resultado << a - b.
-        finish.
+        -- operador ternario (if/else)
+        resultado << if (a < b) a + b else a - b.
 
-        io.show[resultado].
+        io->show[resultado].
 
     finish
 
