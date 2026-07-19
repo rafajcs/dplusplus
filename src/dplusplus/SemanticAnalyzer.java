@@ -1,14 +1,19 @@
 package dplusplus;
-
 import dplusplus.analysis.DepthFirstAdapter;
-import dplusplus.node.*; // Nós gerados automaticamente pela sua AST
+import dplusplus.node.*; // Nós gerados automaticamente pela AST
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class SemanticAnalyzer extends DepthFirstAdapter {
     private SymbolTable symbolTable;
     private List<String> errorList; // Acumulador de mensagens de erro
 
+    // Cria um dicionário que associa objetos Node a às caractegorias de tipos
+    private final Map<Node, SymbolInfo.TypeKind> nodeTypes = new HashMap<>();
+    
     public SemanticAnalyzer() {
         this.symbolTable = new SymbolTable();
         this.errorList = new ArrayList<>();
@@ -29,6 +34,49 @@ public class SemanticAnalyzer extends DepthFirstAdapter {
         }
     }
 
+    // METODOS OUT
+    @Override
+    public void outANumeroLiteral(ANumeroLiteral node) {
+        nodeTypes.put(node, SymbolInfo.TypeKind.INTEIRO);
+    }
+
+
+    @Override
+    public void outAIdExpressao(AIdExpressao node) {
+        String id = node.getId().getText().trim();
+        SymbolInfo info = symbolTable.lookup(id);
+
+        if (info == null) {
+            nodeTypes.put(node, SymbolInfo.TypeKind.ERRO);
+        } else {
+            nodeTypes.put(node, info.getType());
+        }
+    }
+
+    // Operação: Soma
+    @Override
+    public void outASomaExpressao(ASomaExpressao node) {
+        Node esquerdo = node.getEsquerda();
+        Node direito = node.getDireita();
+
+        SymbolInfo.TypeKind tipoEsq = nodeTypes.get(esquerdo);
+        SymbolInfo.TypeKind tipoDir = nodeTypes.get(direito);
+
+        if (tipoEsq == SymbolInfo.TypeKind.ERRO || tipoDir == SymbolInfo.TypeKind.ERRO) {
+            nodeTypes.put(node, SymbolInfo.TypeKind.ERRO);
+            return;
+        }
+
+        if (tipoEsq == SymbolInfo.TypeKind.INTEIRO && tipoDir == SymbolInfo.TypeKind.INTEIRO) {
+            nodeTypes.put(node, SymbolInfo.TypeKind.INTEIRO);
+        } else {
+            int linha = node.getMais().getLine();
+            int coluna = node.getMais().getPos();
+            
+            reportError("Operação de soma inválida. Esperado (INTEIRO, INTEIRO) mas encontrado (" + tipoEsq + ", " + tipoDir + ").", linha, coluna);
+            nodeTypes.put(node, SymbolInfo.TypeKind.ERRO);
+        }
+    }
     // --- GERENCIAMENTO DE ESCOPOS ---
 
     @Override
@@ -117,3 +165,5 @@ public class SemanticAnalyzer extends DepthFirstAdapter {
         return SymbolInfo.TypeKind.BOOLEANO;
     }
 }
+
+
