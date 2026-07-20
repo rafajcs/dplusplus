@@ -1,0 +1,11 @@
+-- Erro: 2o argumento deveria ser number, e answer (yes)
+family Calc start
+    function number soma [number a | number b] start
+        a + b
+    finish
+
+    procedure usa [] start
+        alterable number r << 0.
+        r << soma[10 | yes].
+    finish
+finish

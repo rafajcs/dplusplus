@@ -1,0 +1,6 @@
+-- Erro: funcao number retorna answer (yes)
+family Calc start
+    function number errada [] start
+        yes
+    finish
+finish

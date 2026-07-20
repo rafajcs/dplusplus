@@ -1,0 +1,10 @@
+-- Heranca valida: Mae e Filha existem, sem ciclo
+family Filha derives from Mae .
+
+family Mae start
+    alterable number x << 0.
+finish
+
+family Filha start
+    alterable number y << 0.
+finish
