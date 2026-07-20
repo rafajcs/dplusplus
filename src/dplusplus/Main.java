@@ -7,13 +7,10 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.out.println("Uso: java src.dplusplus.Main fatorial.dpp");
-            //return;
-        }
-
-        //String filePath = args[0];
         String filePath = "teste/fatorial.dpp";
+        if (args.length >= 1) {
+            filePath = args[0];
+        }
 
         try (FileReader fileReader = new FileReader(filePath);
              PushbackReader pushbackReader = new PushbackReader(fileReader, 1024)) {

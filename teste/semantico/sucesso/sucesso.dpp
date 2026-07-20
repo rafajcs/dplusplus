@@ -1,0 +1,17 @@
+family TesteSucesso start
+    object Periphericals io.
+
+    function number testarComandos [] start
+        unalterable number limite << 100.
+        alterable number contador << 0.
+        alterable answer condicao << yes.
+
+        in case that (condicao) start
+            as long as (contador < limite) start
+                contador << contador + 1.
+            finish
+        finish
+
+        contador
+    finish
+finish

@@ -1,0 +1,7 @@
+family TesteAlterarConstante start
+    function number testar [] start
+        unalterable number k << 50.
+        k << 100. -- Erro: k e unalterable (constante)
+        k
+    finish
+finish

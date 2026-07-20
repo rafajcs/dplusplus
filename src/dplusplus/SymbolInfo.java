@@ -2,7 +2,7 @@ package dplusplus;
 
 public class SymbolInfo {
     public enum Category { VARIABLE, CONSTANT, OBJECT, METHOD, CLASS }
-    public enum TypeKind { INTEIRO, BOOLEANO, CLASSE }
+    public enum TypeKind { INTEIRO, BOOLEANO, CLASSE, ERRO }
 
     private String id;
     private Category category;
@@ -26,5 +26,6 @@ public class SymbolInfo {
     public String getId() { return id; }
     public Category getCategory() { return category; }
     public TypeKind getTypeKind() { return typeKind; }
+    public TypeKind getType() { return typeKind; }
     public String getClassName() { return className; }
 }

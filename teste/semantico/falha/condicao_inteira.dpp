@@ -1,0 +1,12 @@
+family TesteCondicaoInteira start
+    function number testar [] start
+        alterable number n << 10.
+        in case that (n + 5) start -- Erro: condicao do if e inteira (n+5) em vez de booleana
+            n << 0.
+        finish
+        as long as (n) start -- Erro: condicao do while e inteira (n) em vez de booleana
+            n << n - 1.
+        finish
+        n
+    finish
+finish

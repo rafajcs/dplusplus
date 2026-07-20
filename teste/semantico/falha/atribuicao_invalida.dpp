@@ -1,0 +1,7 @@
+family TesteAtribuicaoInvalida start
+    function number testar [] start
+        alterable number x << 10.
+        x << (5 < 10). -- Erro: tentar atribuir BOOLEANO para variavel INTEIRO
+        x
+    finish
+finish
