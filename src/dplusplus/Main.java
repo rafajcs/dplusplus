@@ -7,15 +7,20 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "teste/fatorial.dpp";
+    	// Arquivo padrão para testes rápidos
+        String filePath = "teste/cobertura.dpp"; 
+
         if (args.length >= 1) {
             filePath = args[0];
+        } else {
+            System.out.println("[INFO] Nenhum arquivo fornecido. Executando teste padrão: " + filePath);
+            System.out.println("[DICA] Uso customizado: java dplusplus.Main <caminho_do_arquivo.dpp>\n");
         }
 
         try (FileReader fileReader = new FileReader(filePath);
              PushbackReader pushbackReader = new PushbackReader(fileReader, 1024)) {
 
-            System.out.println("A abrir e a processar o ficheiro: " + filePath);
+            System.out.println("Processando o arquivo: " + filePath);
 
             // 1. Inicializa a Análise Léxica
             Lexer lexer = new Lexer(pushbackReader);
@@ -25,7 +30,7 @@ public class Main {
 
             // 3. Executa o parser (Retorna a raiz da AST devido às transformações {->})
             Start astRoot = parser.parse();
-            System.out.println("[SINTÁTICA OK] Ficheiro sintaticamente válido.");
+            System.out.println("[SINTÁTICA OK] Arquivo sintaticamente válido.");
 
             // 4. Inicializa o Analisador Semântico
             SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
@@ -35,10 +40,13 @@ public class Main {
 
             // 6. Avaliação dos resultados semânticos
             if (semanticAnalyzer.hasErrors()) {
-                System.err.println("\n[SEMÂNTICA FALHOU] Foram detetados erros semânticos:");
+                System.err.println("\n[SEMÂNTICA FALHOU] Foram detectados erros semânticos:");
                 semanticAnalyzer.printErrors();
             } else {
-                System.out.println("\n[SEMÂNTICA OK] Programa validado com sucesso! Pronto para geração de código.");
+                System.out.println("\n[SEMÂNTICA OK] Programa validado com sucesso! Iniciando geração de código...");
+                // 7. Iniciar Geração de Código
+                dplusplus.codegen.CodeGenerator codeGen = new dplusplus.codegen.CodeGenerator("generated_java");
+                codeGen.generate(astRoot);
             }
 
         } catch (LexerException e) {
