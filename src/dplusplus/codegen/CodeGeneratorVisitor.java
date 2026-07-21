@@ -12,6 +12,8 @@ public class CodeGeneratorVisitor extends DepthFirstAdapter {
     private StringBuilder currentClassCode;
     private String currentClassName;
     private int indentLevel = 0;
+    private int methodDepth = 0;
+    private java.util.Map<String, String> heranca = new java.util.HashMap<>();
 
     public CodeGeneratorVisitor(String outputDir) {
         this.outputDir = outputDir;
@@ -26,6 +28,17 @@ public class CodeGeneratorVisitor extends DepthFirstAdapter {
     }
 
     @Override
+    public void inAPrograma(APrograma node) {
+        if (node.getGenealogia() != null) {
+            AGenealogia g = (AGenealogia) node.getGenealogia();
+            for (PRelacao pr : g.getRelacao()) {
+                ARelacao r = (ARelacao) pr;
+                heranca.put(r.getFilho().getText().trim(), r.getPai().getText().trim());
+            }
+        }
+    }
+
+    @Override
     public void caseADeclaracaoClasse(ADeclaracaoClasse node) {
         currentClassName = node.getIdClasse().getText().trim();
         currentClassCode = new StringBuilder();
@@ -34,7 +47,13 @@ public class CodeGeneratorVisitor extends DepthFirstAdapter {
         writeLine("import java.util.Scanner;");
         writeLine("");
         
-        writeLine("public class " + currentClassName + " {");
+        String pai = heranca.get(currentClassName);
+        if (pai != null && !pai.equals("Root")) {
+            writeLine("public class " + currentClassName + " extends " + pai + " {");
+        } else {
+            writeLine("public class " + currentClassName + " {");
+        }
+        
         indentLevel++;
         
         for (PComponentes comp : node.getComponentes()) {
@@ -84,6 +103,20 @@ public class CodeGeneratorVisitor extends DepthFirstAdapter {
         writeLine("final " + tipo + " " + id + " = " + exprVisitor.getCode() + ";");
     }
 
+    @Override
+    public void caseADecObj(ADecObj node) {
+        String tipo = node.getIdClasse().getText().trim();
+        String id = node.getId().getText().trim();
+
+        // Se methodDepth > 0, estamos dentro de um método (variável local) -> instanciamos para simular alocação na stack
+        // Se methodDepth == 0, estamos no corpo da classe (atributo) -> iniciamos com null para evitar recursão infinita (StackOverflow)
+        if (methodDepth > 0) {
+            writeLine(tipo + " " + id + " = new " + tipo + "();");
+        } else {
+            writeLine(tipo + " " + id + " = null;");
+        }
+    }
+
 
     @Override
     public void caseAFuncaoConcretaMetodo(AFuncaoConcretaMetodo node) {
@@ -97,11 +130,13 @@ public class CodeGeneratorVisitor extends DepthFirstAdapter {
             params.append(mapType(p.getTipo())).append(" ").append(p.getId().getText().trim());
         }
         
-        writeLine("public static " + tipo + " " + id + "(" + params.toString() + ") {");
+        writeLine("public " + tipo + " " + id + "(" + params.toString() + ") {");
         indentLevel++;
+        methodDepth++;
         
         node.getBlocoExp().apply(this);
         
+        methodDepth--;
         indentLevel--;
         writeLine("}");
     }
@@ -112,22 +147,29 @@ public class CodeGeneratorVisitor extends DepthFirstAdapter {
         boolean isMain = node.getMarcador() != null; // Marcador >> procedure main
         
         StringBuilder params = new StringBuilder();
-        if (isMain) {
-            params.append("String[] args");
-        } else {
-            for (int i = 0; i < node.getParametro().size(); i++) {
-                if (i > 0) params.append(", ");
-                AParametro p = (AParametro) node.getParametro().get(i);
-                params.append(mapType(p.getTipo())).append(" ").append(p.getId().getText().trim());
-            }
+        for (int i = 0; i < node.getParametro().size(); i++) {
+            if (i > 0) params.append(", ");
+            AParametro p = (AParametro) node.getParametro().get(i);
+            params.append(mapType(p.getTipo())).append(" ").append(p.getId().getText().trim());
         }
         
-        String methodName = isMain ? "main" : id;
-        writeLine("public static void " + methodName + "(" + params.toString() + ") {");
+        if (isMain) {
+            writeLine("public static void main(String[] args) {");
+            indentLevel++;
+            writeLine(currentClassName + " app = new " + currentClassName + "();");
+            writeLine("app." + id + "();");
+            indentLevel--;
+            writeLine("}");
+            writeLine("");
+        }
+        
+        writeLine("public void " + id + "(" + params.toString() + ") {");
         indentLevel++;
+        methodDepth++;
         
         node.getBlocoComandos().apply(this);
         
+        methodDepth--;
         indentLevel--;
         writeLine("}");
     }

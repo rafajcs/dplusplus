@@ -147,4 +147,13 @@ public class ExpressionTranslator extends DepthFirstAdapter {
             code.append(")");
         }
     }
+
+    @Override
+    public void caseATernarioExpressao(ATernarioExpressao node) {
+        node.getCond().apply(this);
+        code.append(" ? ");
+        node.getVTrue().apply(this);
+        code.append(" : ");
+        node.getVFalse().apply(this);
+    }
 }

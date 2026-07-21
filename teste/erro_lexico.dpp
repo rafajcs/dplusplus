@@ -1,7 +1,0 @@
-family Teste start
-    >> procedure main [] start
-        alterable number x << 10.
-        -- O caractere @ abaixo nao pertence ao alfabeto da linguagem
-        x << x @ 5.
-    finish
-finish
