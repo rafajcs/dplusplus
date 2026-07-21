@@ -8,7 +8,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
     	// Arquivo padrão para testes rápidos
-        String filePath = "teste/semantico/falha/heranca_ciclo.dpp"; 
+        String filePath = "teste/semantico/sucesso/sucesso.dpp"; 
 
         if (args.length >= 1) {
             filePath = args[0];
@@ -42,11 +42,9 @@ public class Main {
             if (semanticAnalyzer.hasErrors()) {
                 System.err.println("\n[SEMÂNTICA FALHOU] Foram detectados erros semânticos:");
                 semanticAnalyzer.printErrors();
-            } else {
-                System.out.println("\n[SEMÂNTICA OK] Programa validado com sucesso! Iniciando geração de código...");
-                // 7. Iniciar Geração de Código
-                dplusplus.codegen.CodeGenerator codeGen = new dplusplus.codegen.CodeGenerator("generated_java");
-                codeGen.generate(astRoot);
+            } 
+            else {
+                System.out.println("\n[SEMÂNTICA OK] Programa validado com sucesso!");
             }
 
         } catch (LexerException e) {
