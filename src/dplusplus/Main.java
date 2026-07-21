@@ -8,7 +8,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
     	// Arquivo padrão para testes rápidos
-        String filePath = "teste/cobertura.dpp"; 
+        String filePath = "teste/semantico/falha/heranca_ciclo.dpp"; 
 
         if (args.length >= 1) {
             filePath = args[0];
