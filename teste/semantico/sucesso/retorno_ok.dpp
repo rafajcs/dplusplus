@@ -1,0 +1,6 @@
+-- Retorno bate com o tipo declarado (number)
+family Calc start
+    function number dobro [number n] start
+        n + n
+    finish
+finish

@@ -1,0 +1,11 @@
+-- Erro: soma espera 2 argumentos, recebe 1
+family Calc start
+    function number soma [number a | number b] start
+        a + b
+    finish
+
+    procedure usa [] start
+        alterable number r << 0.
+        r << soma[10].
+    finish
+finish

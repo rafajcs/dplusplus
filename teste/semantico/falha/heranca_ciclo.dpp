@@ -1,0 +1,10 @@
+-- Erro: ciclo A -> B -> A
+family A derives from B & family B derives from A .
+
+family A start
+    alterable number x << 0.
+finish
+
+family B start
+    alterable number y << 0.
+finish

@@ -1,0 +1,6 @@
+-- Erro: classe mae 'Fantasma' nao existe
+family Filha derives from Fantasma .
+
+family Filha start
+    alterable number y << 0.
+finish
